@@ -125,18 +125,18 @@
   .done .done-char { width:200px; max-width:60%; height:auto; margin-bottom:16px; }
   .done h2 { font-family:'YeongyanggunEumsikdimibang','Pretendard',serif; font-size:36px; color:var(--ink); margin:0 0 14px; }
   .done p { font-size:15px; color:var(--g800); margin:0 auto 28px; max-width:320px; line-height:1.7; }
-  .done .share-label { font-size:22px; color:var(--ink); margin:36px 0 14px; }
-  .share-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; max-width:400px; margin:0 auto; }
-  .share-item { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; height:76px; background:#fff; color:var(--g800); border:1px solid var(--border); border-radius:14px; font-size:12px; font-weight:600; font-family:inherit; cursor:pointer; transition:border-color .15s, background .15s, color .15s, transform .05s; letter-spacing:-0.2px; }
-  .share-item:hover { border-color:var(--ink); background:var(--cream); color:var(--ink); }
-  .share-item:active { transform:scale(.97); }
-  .share-icon { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .done .share-sec { max-width:340px; margin:64px auto 0; padding-top:28px; border-top:1px solid var(--border); }
+  .done .share-label { font-size:16px; font-weight:500; color:var(--g800); margin:0 0 16px; }
+  .share-grid { display:flex; justify-content:center; gap:14px; }
+  .share-item { border:none; padding:0; background:none; cursor:pointer; transition:transform .15s; }
+  .share-item:hover { transform:translateY(-3px); }
+  .share-item:active { transform:scale(.94); }
+  .share-icon { width:52px; height:52px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 3px 10px rgba(64,21,4,.15); }
   .share-icon.kakao { background:#FAE100; color:#3C1E1E; }
   .share-icon.x { background:#000000; color:#FFFFFF; }
   .share-icon.blog { background:#03C75A; color:#FFFFFF; }
-  .share-icon.copy { background:var(--gray50); color:var(--g800); }
-  .share-icon svg { width:16px; height:16px; }
-  @media (max-width:380px){ .share-grid { grid-template-columns:repeat(2,1fr); } }
+  .share-icon.copy { background:#fff; color:var(--g800); border:1px solid var(--border); }
+  .share-icon svg { width:24px; height:24px; }
 
   .opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
   .opt-grid .opt { margin-bottom:0; }
@@ -338,24 +338,22 @@
     <img class="done-char" src="seonbi.png" alt="">
     <h2 class="dimibang">응시 접수 완료</h2>
     <p><b>자네는 응시생으로 등록되었소</b><br><br>선발 결과는 6/26부터 발표할 테니<br>핸드폰을 꼭 붙잡고 있으시오!</p>
+    <div class="share-sec">
     <p class="share-label dimibang">벗에게 이벤트 공유하기</p>
     <div class="share-grid">
       <button type="button" class="share-item" id="shKakao" aria-label="카카오톡에 공유">
         <span class="share-icon kakao"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3C6.48 3 2 6.54 2 10.9c0 2.8 1.86 5.25 4.66 6.64-.2.74-.74 2.68-.85 3.1-.13.52.19.51.4.37.17-.11 2.62-1.78 3.68-2.5.67.1 1.38.16 2.11.16 5.52 0 10-3.54 10-7.9S17.52 3 12 3z"/></svg></span>
-        <span>카카오톡</span>
       </button>
       <button type="button" class="share-item" id="shX" aria-label="X(트위터)에 공유">
         <span class="share-icon x"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></span>
-        <span>X</span>
       </button>
       <button type="button" class="share-item" id="shBlog" aria-label="네이버 블로그에 공유">
         <span class="share-icon blog"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/></svg></span>
-        <span>블로그</span>
       </button>
       <button type="button" class="share-item" id="shCopy" aria-label="링크 복사">
         <span class="share-icon copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
-        <span>링크 복사</span>
       </button>
+    </div>
     </div>
   </div>
 
