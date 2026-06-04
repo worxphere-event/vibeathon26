@@ -224,7 +224,7 @@
         <div class="field">
           <label class="q">참여 형태<span class="req">*</span></label>
           <label class="opt"><input type="radio" name="join" value="팀으로 신청합니다 (최대 3인)"><span>팀으로 신청합니다 (최대 3인)</span></label>
-          <label class="opt"><input type="radio" name="join" value="1인팀으로 신청합니다"><span>1인팀으로 신청합니다</span></label>
+          <label class="opt"><input type="radio" name="join" value="1인 팀으로 신청합니다"><span>1인 팀으로 신청합니다</span></label>
           <label class="opt"><input type="radio" name="join" value="혼자 신청하며, 랜덤 팀 매칭 희망합니다"><span>혼자 신청하며, 랜덤 팀 매칭 희망합니다</span></label>
         </div>
 
@@ -400,7 +400,7 @@
   $$('input[name="join"]').forEach(r => r.addEventListener('change', () => {
     const v = ($('input[name="join"]:checked')||{}).value || '';
     const isTeam = v.startsWith('팀으로');
-    const isSolo1 = v.startsWith('1인팀');
+    const isSolo1 = v.startsWith('1인 팀');
     const isRandom = v.startsWith('혼자');
     $('#leaderRoleField').classList.toggle('hidden', !isTeam);
     $('#personalityField').classList.toggle('hidden', !isRandom);
@@ -446,7 +446,7 @@
     const name=v('name'), phone=$('#phone').value.replace(/[^0-9]/g,'');
     const jobGroup=($('input[name="jobGroup"]:checked')||{}).value||'', career=($('input[name="career"]:checked')||{}).value||'';
     const join=($('input[name="join"]:checked')||{}).value||'';
-    const isTeam=join.startsWith('팀으로'), isSolo1=join.startsWith('1인팀'), isRandom=join.startsWith('혼자');
+    const isTeam=join.startsWith('팀으로'), isSolo1=join.startsWith('1인 팀'), isRandom=join.startsWith('혼자');
     const leaderRole=($('input[name="leaderRole"]:checked')||{}).value||'';
     const personality=($('input[name="personality"]:checked')||{}).value||'';
     const aiexp=($('input[name="aiexp"]:checked')||{}).value||'';
