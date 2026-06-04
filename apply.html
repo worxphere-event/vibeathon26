@@ -232,7 +232,7 @@
       <!-- 섹션 2. 팀 구성 -->
       <div class="section">
         <div class="field">
-          <label class="q">참여 형태<span class="req">*</span><span class="q-side">팀원도 각자 지원서를 제출해야 합니다</span></label>
+          <label class="q">참여 형태<span class="req">*</span><span class="q-side"><b>팀원도 각자 지원서를 제출해야 합니다</b></span></label>
           <label class="opt"><input type="radio" name="join" value="2인 이상 팀으로 신청"><span>2인 이상 팀으로 신청</span></label>
           <label class="opt"><input type="radio" name="join" value="1인 팀으로 신청"><span>1인 팀으로 신청</span></label>
           <label class="opt"><input type="radio" name="join" value="혼자 신청하며, 랜덤 팀 매칭 희망"><span>혼자 신청하며, 랜덤 팀 매칭 희망</span></label>
@@ -250,6 +250,13 @@
           <label class="q">나의 성향<span class="req">*</span><span class="q-side">성향을 반영해 매칭해 드릴게요</span></label>
           <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 먼저 말을 거는 편입니다"><span>처음 본 사람에게 먼저 말을 거는 편입니다</span></label>
           <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 낯을 가리는 편입니다"><span>처음 본 사람에게 낯을 가리는 편입니다</span></label>
+        </div>
+
+        <!-- 7-3. 혼자+랜덤 매칭 시 — 팀 내 역할 -->
+        <div class="field hidden" id="randomLeaderField">
+          <label class="q">팀 내 역할<span class="req">*</span><span class="q-side">랜덤 팀에도 팀장이 필요해요</span></label>
+          <label class="opt"><input type="radio" name="randomLeader" value="팀장을 원합니다"><span>팀장을 원합니다</span></label>
+          <label class="opt"><input type="radio" name="randomLeader" value="팀원을 원합니다"><span>팀원을 원합니다</span></label>
         </div>
 
         <!-- 8. 팀명 (팀/1인팀) -->
@@ -431,6 +438,7 @@
     const isRandom = v.startsWith('혼자');
     $('#leaderRoleField').classList.toggle('hidden', !isTeam);
     $('#personalityField').classList.toggle('hidden', !isRandom);
+    $('#randomLeaderField').classList.toggle('hidden', !isRandom);
     $('#teamNameField').classList.toggle('hidden', !(isTeam||isSolo1));   // 팀/1인팀만 팀명
     $('#leaderNameField').classList.toggle('hidden', !(isTeam||isSolo1)); // 팀/1인팀만 팀장이름
     // 1인팀 선택 시: 성함이 있고 팀장 이름이 비어 있으면 자동 입력
@@ -476,6 +484,7 @@
     const isTeam=join.startsWith('2인'), isSolo1=join.startsWith('1인 팀'), isRandom=join.startsWith('혼자');
     const leaderRole=($('input[name="leaderRole"]:checked')||{}).value||'';
     const personality=($('input[name="personality"]:checked')||{}).value||'';
+    const randomLeader=($('input[name="randomLeader"]:checked')||{}).value||'';
     const aiexp=($('input[name="aiexp"]:checked')||{}).value||'';
     let reason=($('input[name="reason"]:checked')||{}).value||'';
     let source=($('input[name="source"]:checked')||{}).value||'';
@@ -488,6 +497,7 @@
     if(!join) return toast('참여 형태를 선택해 주세요');
     if(isTeam && !leaderRole) return toast('팀 내 역할을 선택해 주세요');
     if(isRandom && !personality) return toast('성향을 선택해 주세요');
+    if(isRandom && !randomLeader) return toast('팀장 의향을 선택해 주세요');
     if((isTeam||isSolo1) && !v('teamName')) return toast('팀명을 입력해 주세요');
     if((isTeam||isSolo1) && !v('leaderName')) return toast('팀장의 이름을 입력해 주세요');
     if(!aiexp) return toast('AI 툴 사용 경험을 선택해 주세요');
@@ -501,7 +511,7 @@
     const f=$('#googleForm'), set=(k,val)=>{const el=f.querySelector('[name="'+k+'"]'); if(el) el.value=val;};
     set('entry.1586168176',name); set('entry.1651421180',phone); set('entry.2032015497',v('memberId'));
     set('entry.1161341054',jobGroup); set('entry.682276939',career); set('entry.1215183855',join);
-    set('entry.416029178',leaderRole); set('entry.1271360449',personality);
+    set('entry.416029178', isTeam ? leaderRole : (isRandom ? '랜덤 매칭 - '+randomLeader : '')); set('entry.1271360449',personality);
     set('entry.2091082383',v('teamName')); set('entry.305763739',v('leaderName'));
     set('entry.598308781',aiexp); set('entry.832638958',reason); set('entry.475867511',source); set('entry.48496942',motive);
     set('entry.1801479883','동의합니다.'); set('entry.1350818787','동의합니다.'); set('entry.477702631','동의합니다.');
