@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>잡코리아 바이브톤 응시 원서</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="[무료] 삼시 세끼 챙겨주는 잡코리아 바이브톤">
+<meta property="og:description" content="장원급제 시 상금 100만 원, 직무 제한 없이 누구나 응시 가능하오(~6/25까지)">
+<meta property="og:image" content="https://worxphere-event.github.io/vibeathon26/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="600">
+<meta property="og:url" content="https://worxphere-event.github.io/vibeathon26/apply.html">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
 <style>
@@ -186,14 +194,14 @@
 
       <!-- 섹션 1. 기본 정보 -->
       <div class="section">
-        <div class="field"><label class="q">성함<span class="req">*</span></label><input type="text" id="name" placeholder="성함을 작성해 주세요"></div>
-        <div class="field"><label class="q">휴대폰 번호<span class="req">*</span><span class="q-side">하이픈(-) 없이 숫자만 작성해 주세요</span></label><input type="tel" id="phone" inputmode="numeric" placeholder="01012345678"></div>
+        <div class="field"><label class="q">성함<span class="req">*</span></label><input type="text" id="name" placeholder="성함을 작성하시오"></div>
+        <div class="field"><label class="q">휴대폰 번호<span class="req">*</span><span class="q-side">하이픈(-) 없이 숫자만 작성하시오</span></label><input type="tel" id="phone" inputmode="numeric" placeholder="01012345678"></div>
         <div class="field">
           <div class="label-row">
             <label class="q">잡코리아 ID</label>
             <button type="button" class="help-link-text" id="idHelpBtn">아이디 확인하는 법</button>
           </div>
-          <input type="text" id="memberId" placeholder="(선택) 작성 시 우선 선발 대상자가 돼요" maxlength="30">
+          <input type="text" id="memberId" placeholder="(선택) 작성 시 우선 선발 대상자가 될 것이오" maxlength="30">
           <div class="help-panel" id="memberIdPanel" hidden>
             <div class="help-item">
               <span class="help-tag">PC</span>
@@ -232,7 +240,7 @@
       <!-- 섹션 2. 팀 구성 -->
       <div class="section">
         <div class="field">
-          <label class="q">참여 형태<span class="req">*</span><span class="q-side"><b>팀원도 각자 지원서를 제출해야 합니다</b></span></label>
+          <label class="q">참여 형태<span class="req">*</span><span class="q-side"><b>팀원도 각자 지원서를 제출해야 하오</b></span></label>
           <label class="opt"><input type="radio" name="join" value="2인 이상 팀으로 신청"><span>2인 이상 팀으로 신청</span></label>
           <label class="opt"><input type="radio" name="join" value="1인 팀으로 신청"><span>1인 팀으로 신청</span></label>
           <label class="opt"><input type="radio" name="join" value="혼자 신청하며, 랜덤 팀 매칭 희망"><span>혼자 신청하며, 랜덤 팀 매칭 희망</span></label>
@@ -241,34 +249,34 @@
         <!-- 7-1. 팀으로 신청 시 -->
         <div class="field hidden" id="leaderRoleField">
           <label class="q">팀 내 역할<span class="req">*</span></label>
-          <label class="opt"><input type="radio" name="leaderRole" value="팀장입니다"><span>팀장입니다</span></label>
-          <label class="opt"><input type="radio" name="leaderRole" value="팀원입니다"><span>팀원입니다</span></label>
+          <label class="opt"><input type="radio" name="leaderRole" value="팀장이오"><span>팀장이오</span></label>
+          <label class="opt"><input type="radio" name="leaderRole" value="팀원이오"><span>팀원이오</span></label>
         </div>
 
         <!-- 7-2. 혼자+랜덤 매칭 시 -->
         <div class="field hidden" id="personalityField">
-          <label class="q">나의 성향<span class="req">*</span><span class="q-side">성향을 반영해 매칭해 드릴게요</span></label>
-          <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 먼저 말을 거는 편입니다"><span>처음 본 사람에게 먼저 말을 거는 편입니다</span></label>
-          <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 낯을 가리는 편입니다"><span>처음 본 사람에게 낯을 가리는 편입니다</span></label>
+          <label class="q">나의 성향<span class="req">*</span><span class="q-side">성향을 반영할 것이오</span></label>
+          <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 먼저 말을 거는 편이오"><span>처음 본 사람에게 먼저 말을 거는 편이오</span></label>
+          <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 낯을 가리는 편이오"><span>처음 본 사람에게 낯을 가리는 편이오</span></label>
         </div>
 
         <!-- 7-3. 혼자+랜덤 매칭 시 — 팀 내 역할 -->
         <div class="field hidden" id="randomLeaderField">
-          <label class="q">팀 내 역할<span class="req">*</span><span class="q-side">랜덤 팀에도 팀장이 필요해요</span></label>
-          <label class="opt"><input type="radio" name="randomLeader" value="팀장을 원합니다"><span>팀장을 원합니다</span></label>
-          <label class="opt"><input type="radio" name="randomLeader" value="팀원을 원합니다"><span>팀원을 원합니다</span></label>
+          <label class="q">팀 내 역할<span class="req">*</span><span class="q-side">랜덤 팀에도 팀장이 필요하오</span></label>
+          <label class="opt"><input type="radio" name="randomLeader" value="팀장을 원하오"><span>팀장을 원하오</span></label>
+          <label class="opt"><input type="radio" name="randomLeader" value="팀원을 원하오"><span>팀원을 원하오</span></label>
         </div>
 
         <!-- 8. 팀명 (팀/1인팀) -->
         <div class="field hidden" id="teamNameField">
           <label class="q">팀명<span class="req">*</span><span class="q-side">최대 8자 이내</span></label>
-          <input type="text" id="teamName" placeholder="팀 이름을 입력해 주세요 (최대 8자)" maxlength="8">
+          <input type="text" id="teamName" placeholder="팀 이름을 작성하시오 (최대 8자)" maxlength="8">
         </div>
 
         <!-- 9. 팀장 이름 (팀/1인팀) -->
         <div class="field hidden" id="leaderNameField">
           <label class="q">팀장의 이름<span class="req">*</span></label>
-          <input type="text" id="leaderName" placeholder="팀장 이름 (본인이 팀장이면 본인 이름)">
+          <input type="text" id="leaderName" placeholder="팀장의 이름을 적어 주시오 (본인이 팀장이면 본인 이름)">
         </div>
 
       </div>
@@ -287,7 +295,7 @@
           <label class="opt"><input type="radio" name="reason" value="재밌어 보여서"><span>재밌어 보여서</span></label>
           <label class="opt"><input type="radio" name="reason" value="회사 밖 사람들과 교류를 위해"><span>회사 밖 사람들과 교류를 위해</span></label>
           <label class="opt"><input type="radio" name="reason" value="기타"><span>기타</span></label>
-          <input type="text" class="etc-input hidden" id="reasonEtc" placeholder="기타 사유를 적어주세요">
+          <input type="text" class="etc-input hidden" id="reasonEtc" placeholder="기타 사유를 적어 주시오">
         </div>
         <div class="field">
           <label class="q">유입 경로<span class="req">*</span></label>
@@ -299,11 +307,11 @@
             <label class="opt"><input type="radio" name="source" value="보도자료"><span>보도자료</span></label>
             <label class="opt"><input type="radio" name="source" value="기타"><span>기타</span></label>
           </div>
-          <input type="text" class="etc-input hidden" id="sourceEtc" placeholder="기타 경로를 적어주세요" style="margin-top:8px">
+          <input type="text" class="etc-input hidden" id="sourceEtc" placeholder="기타 경로를 적어 주시오" style="margin-top:8px">
         </div>
         <div class="field">
-          <label class="q">잡코리아 바이브톤을 신청한 이유는 무엇인가요?<span class="req">*</span><br><span class="q-side" style="margin-left:0">(나는 어떤 사람인지, 왜 이번 이벤트에 오고 싶은지 궁금해요.)</span></label>
-          <textarea id="motive" placeholder="자유롭게 적어주세요"></textarea>
+          <label class="q">잡코리아 바이브톤을 신청한 이유는 무엇인가요?<span class="req">*</span><br><span class="q-side" style="margin-left:0">(나는 어떤 사람인지, 왜 이번 이벤트에 오고 싶은지 궁금하오.)</span></label>
+          <textarea id="motive" placeholder="자유롭게 적어 주시오"></textarea>
         </div>
       </div>
 
@@ -445,7 +453,7 @@
 
   // 팀 내 역할 = 팀장 선택 시: 팀장 이름 자동 입력 (비어 있을 때만)
   $$('input[name="leaderRole"]').forEach(r => r.addEventListener('change', () => {
-    if ((($('input[name="leaderRole"]:checked')||{}).value||'') !== '팀장입니다') return;
+    if ((($('input[name="leaderRole"]:checked')||{}).value||'') !== '팀장이오') return;
     const nm = ($('#name').value||'').trim(), ln = $('#leaderName');
     if (nm && ln && !(ln.value||'').trim()) { ln.value = nm; ln.dispatchEvent(new Event('input',{bubbles:true})); }
   }));
@@ -482,23 +490,23 @@
     let source=($('input[name="source"]:checked')||{}).value||'';
     const motive=v('motive');
 
-    if(!name) return toast('성함을 입력해 주세요');
-    if(phone.length<10) return toast('휴대폰 번호를 정확히 입력해 주세요');
-    if(!jobGroup) return toast('직군을 선택해 주세요');
-    if(!career) return toast('연차를 선택해 주세요');
-    if(!join) return toast('참여 형태를 선택해 주세요');
-    if(isTeam && !leaderRole) return toast('팀 내 역할을 선택해 주세요');
-    if(isRandom && !personality) return toast('성향을 선택해 주세요');
-    if(isRandom && !randomLeader) return toast('팀장 의향을 선택해 주세요');
-    if((isTeam||isSolo1) && !v('teamName')) return toast('팀명을 입력해 주세요');
-    if(isTeam && !v('leaderName')) return toast('팀장의 이름을 입력해 주세요');
-    if(!aiexp) return toast('AI 툴 사용 경험을 선택해 주세요');
-    if(!reason) return toast('신청 이유를 선택해 주세요');
-    if(reason==='기타'){ const e1=v('reasonEtc'); if(!e1) return toast('기타 사유를 입력해 주세요'); reason='기타: '+e1; }
-    if(!source) return toast('유입 경로를 선택해 주세요');
-    if(source==='기타'){ const e2=v('sourceEtc'); if(!e2) return toast('기타 경로를 입력해 주세요'); source='기타: '+e2; }
-    if(!motive) return toast('신청한 이유를 입력해 주세요');
-    if(!$('#agree1').checked||!$('#agree2').checked||!$('#agree3').checked) return toast('필수 약관에 모두 동의해 주세요');
+    if(!name) return toast('성함을 입력해 주시오');
+    if(phone.length<10) return toast('휴대폰 번호를 정확히 입력해 주시오');
+    if(!jobGroup) return toast('직군을 선택해 주시오');
+    if(!career) return toast('연차를 선택해 주시오');
+    if(!join) return toast('참여 형태를 선택해 주시오');
+    if(isTeam && !leaderRole) return toast('팀 내 역할을 선택해 주시오');
+    if(isRandom && !personality) return toast('성향을 선택해 주시오');
+    if(isRandom && !randomLeader) return toast('팀 내 역할을 선택해 주시오');
+    if((isTeam||isSolo1) && !v('teamName')) return toast('팀명을 입력해 주시오');
+    if(isTeam && !v('leaderName')) return toast('팀장의 이름을 입력해 주시오');
+    if(!aiexp) return toast('AI 툴 사용 경험을 선택해 주시오');
+    if(!reason) return toast('신청 이유를 선택해 주시오');
+    if(reason==='기타'){ const e1=v('reasonEtc'); if(!e1) return toast('기타 사유를 입력해 주시오'); reason='기타: '+e1; }
+    if(!source) return toast('유입 경로를 선택해 주시오');
+    if(source==='기타'){ const e2=v('sourceEtc'); if(!e2) return toast('기타 경로를 입력해 주시오'); source='기타: '+e2; }
+    if(!motive) return toast('신청한 이유를 입력해 주시오');
+    if(!$('#agree1').checked||!$('#agree2').checked||!$('#agree3').checked) return toast('필수 약관에 모두 동의해 주시오');
 
     const f=$('#googleForm'), set=(k,val)=>{const el=f.querySelector('[name="'+k+'"]'); if(el) el.value=val;};
     set('entry.1586168176',name); set('entry.1651421180',phone); set('entry.2032015497',v('memberId'));
