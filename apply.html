@@ -27,13 +27,13 @@
   .ink-splat i { position:absolute; left:50%; top:50%; background:var(--ink); border-radius:50%; animation:inkDrop .7s ease-out forwards; }
   @keyframes inkBlob { 0%{ transform:scale(.15); opacity:.6; } 60%{ opacity:.32; } 100%{ transform:scale(1); opacity:0; } }
   @keyframes inkDrop { 0%{ transform:translate(-50%,-50%); opacity:.55; } 100%{ transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))); opacity:0; } }
-  .wrap { max-width:480px; margin:0 auto; min-height:100vh; background:var(--paper-card); box-shadow:0 0 40px rgba(64,21,4,.12); border-left:1px solid var(--border); border-right:1px solid var(--border); position:relative; z-index:1; }
+  .wrap { max-width:480px; margin:0 auto; min-height:100vh; background:var(--paper-card); box-shadow:0 0 40px rgba(64,21,4,.12); border-left:1px solid var(--border); border-right:1px solid var(--border); position:relative; z-index:1; display:flex; flex-direction:column; }
 
   /* 위아래 족자 봉 */
   .scroll-bar { height:22px; margin:0 6px; background:linear-gradient(180deg,#8A5630 0%,#5A2E14 40%,#401504 75%,#2E0F02 100%); border-radius:11px; box-shadow:0 3px 10px rgba(64,21,4,.3); position:relative; }
   .scroll-bar::before, .scroll-bar::after { content:''; position:absolute; top:50%; transform:translateY(-50%); width:24px; height:30px; background:linear-gradient(180deg,#6B3A1C,#401504); border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,.25); }
   .scroll-bar::before { left:-10px; } .scroll-bar::after { right:-10px; }
-  .scroll-top { margin-top:14px; } .scroll-bottom { margin-bottom:24px; }
+  .scroll-top { margin-top:14px; } .scroll-bottom { margin-top:auto; margin-bottom:24px; }
 
   .topbar { display:flex; align-items:center; height:44px; padding:6px 20px 0; background:transparent; }
   .topbar a { font-size:14px; color:var(--g800); text-decoration:none; }
@@ -125,8 +125,11 @@
   .done .done-char { width:200px; max-width:60%; height:auto; margin-bottom:16px; }
   .done h2 { font-family:'YeongyanggunEumsikdimibang','Pretendard',serif; font-size:36px; color:var(--ink); margin:0 0 14px; }
   .done p { font-size:15px; color:var(--g800); margin:0 auto 28px; max-width:320px; line-height:1.7; }
-  .done .home-btn { display:inline-flex; height:52px; align-items:center; padding:0 32px; background:var(--ink); border:1.5px solid var(--ink); border-radius:14px; color:#fff; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer; font-family:inherit; transition:background .15s, color .15s; }
-  .done .home-btn:hover { background:#5A2E14; }
+  .done .share-label { font-size:22px; color:var(--ink); margin:36px 0 14px; }
+  .share-row { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; }
+  .share-ch { height:46px; padding:0 20px; border-radius:12px; border:1.5px solid var(--ink); background:#fff; color:var(--ink); font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; transition:background .15s, color .15s, transform .15s; }
+  .share-ch:hover { background:var(--ink); color:#fff; transform:translateY(-1px); }
+  .share-ch:active { transform:scale(.97); }
 
   .opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
   .opt-grid .opt { margin-bottom:0; }
@@ -326,8 +329,14 @@
   <div class="done" id="doneScreen">
     <img class="done-char" src="seonbi.png" alt="">
     <h2 class="dimibang">응시 접수 완료</h2>
-    <p><b>자네는 응시생으로 등록되었소</b><br><br>선발 결과는 6/26부터 6/30까지 문자/유선으로 안내할 터이니<br>핸드폰을 꼭 붙잡고 있으시오!</p>
-    <button type="button" class="home-btn" id="doneShare">벗에게 이벤트 공유하기</button>
+    <p><b>자네는 응시생으로 등록되었소</b><br><br>선발 결과는 6/26부터 발표할 테니<br>핸드폰을 꼭 붙잡고 있으시오!</p>
+    <p class="share-label dimibang">벗에게 이벤트 공유하기</p>
+    <div class="share-row">
+      <button type="button" class="share-ch" id="shKakao">카카오톡</button>
+      <button type="button" class="share-ch" id="shX">X</button>
+      <button type="button" class="share-ch" id="shBlog">블로그</button>
+      <button type="button" class="share-ch" id="shCopy">링크 복사</button>
+    </div>
   </div>
 
   <div class="scroll-bar scroll-bottom"></div>
@@ -338,7 +347,6 @@
 <!-- 우하단 플로팅 버튼 -->
 <div class="fab-stack">
   <button type="button" class="fab fab-top" id="fabTop" aria-label="맨 위로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
-  <button type="button" class="fab" id="fabShare" aria-label="공유하기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg></button>
 </div>
 
 <!-- 구글폼 제출용 (hidden) — entry 번호는 새 구글폼 생성 후 교체 -->
@@ -490,20 +498,19 @@
   const fabTop = $('#fabTop');
   fabTop.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
   window.addEventListener('scroll', ()=>fabTop.classList.toggle('show', window.scrollY>300));
-  $('#fabShare').addEventListener('click', async ()=>{
-    const url = location.href.split('?')[0];
-    const data = { title:'잡코리아 바이브톤', text:'AI에게 일 시킬 줄 아는 자, 바이브톤에 응시하라!', url };
-    if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
-    else { try{ await navigator.clipboard.writeText(url); toast('링크가 복사되었어요'); }catch(e){ toast('링크 복사에 실패했어요'); } }
-  });
 
-  // 완료 화면 — 벗에게 이벤트 공유하기 (이벤트 메인 링크)
-  $('#doneShare').addEventListener('click', async ()=>{
-    const url = 'https://worxphere-event.github.io/vibeathon26/';
-    const data = { title:'잡코리아 바이브톤', text:'AI에게 일 시킬 줄 아는 자, 바이브톤에 응시하라!', url };
-    if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
-    else { try{ await navigator.clipboard.writeText(url); toast('이벤트 링크가 복사되었어요'); }catch(e){ toast('링크 복사에 실패했어요'); } }
+  // 완료 화면 — 벗에게 이벤트 공유하기 (카톡/X/블로그/링크 복사)
+  const EVT_URL = 'https://worxphere-event.github.io/vibeathon26/';
+  const EVT_TITLE = '잡코리아 바이브톤';
+  const EVT_TEXT = 'AI에게 일 시킬 줄 아는 자, 바이브톤에 응시하라!';
+  async function copyEvtLink(msg){ try{ await navigator.clipboard.writeText(EVT_URL); toast(msg); }catch(e){ toast('링크: '+EVT_URL); } }
+  $('#shKakao').addEventListener('click', async ()=>{
+    if(navigator.share){ try{ await navigator.share({title:EVT_TITLE, text:EVT_TEXT, url:EVT_URL}); }catch(e){} }
+    else copyEvtLink('링크를 복사했어요. 카카오톡에 붙여넣어 주세요!');
   });
+  $('#shX').addEventListener('click', ()=> window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(EVT_TEXT)+'&url='+encodeURIComponent(EVT_URL), '_blank', 'noopener'));
+  $('#shBlog').addEventListener('click', ()=> window.open('https://share.naver.com/web/shareView?url='+encodeURIComponent(EVT_URL)+'&title='+encodeURIComponent(EVT_TITLE), '_blank', 'noopener'));
+  $('#shCopy').addEventListener('click', ()=> copyEvtLink('이벤트 링크가 복사되었어요'));
 
   const _pv = new URLSearchParams(location.search).get('preview');
   if(_pv==='done'){ $('#formArea').style.display='none'; $('#doneScreen').classList.add('show'); }
