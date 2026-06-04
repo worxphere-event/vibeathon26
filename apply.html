@@ -510,6 +510,7 @@
 
     submitting=true;
     f.submit();
+    clearDraft(); // 제출 완료 시 임시저장 삭제
     $('#formArea').style.display='none';
     $('#doneScreen').classList.add('show');
     hideFabShare();
@@ -526,6 +527,27 @@
   });
   // 완료 화면에서는 우하단 공유 버튼 숨김 (완료 화면 자체에 공유 채널이 있음)
   function hideFabShare(){ const b=$('#fabShare'); if(b) b.style.display='none'; }
+
+  // ====== 임시저장 (24시간 동안 입력값 유지) ======
+  const DRAFT_KEY = 'vibeathon_draft_v1';
+  function saveDraft(){
+    const d = { t: Date.now(), txt:{}, rad:{}, chk:{} };
+    $$('#appForm input[type=text], #appForm input[type=tel], #appForm textarea').forEach(el=>{ if(el.id) d.txt[el.id]=el.value; });
+    $$('#appForm input[type=radio]:checked').forEach(el=>{ d.rad[el.name]=el.value; });
+    $$('#appForm input[type=checkbox]').forEach(el=>{ if(el.id) d.chk[el.id]=el.checked; });
+    try{ localStorage.setItem(DRAFT_KEY, JSON.stringify(d)); }catch(e){}
+  }
+  function clearDraft(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
+  function loadDraft(){
+    let d; try{ d = JSON.parse(localStorage.getItem(DRAFT_KEY) || 'null'); }catch(e){ return; }
+    if(!d || !d.t || (Date.now() - d.t) > 24*60*60*1000){ clearDraft(); return; }
+    Object.entries(d.rad||{}).forEach(([n,v])=>{ $$('input[name="'+n+'"]').forEach(el=>{ if(el.value===v){ el.checked=true; el.dispatchEvent(new Event('change',{bubbles:true})); } }); });
+    Object.entries(d.txt||{}).forEach(([id,v])=>{ const el=document.getElementById(id); if(el && v){ el.value=v; el.dispatchEvent(new Event('input',{bubbles:true})); } });
+    Object.entries(d.chk||{}).forEach(([id,v])=>{ const el=document.getElementById(id); if(el && el.checked!==v){ el.checked=v; el.dispatchEvent(new Event('change',{bubbles:true})); } });
+  }
+  $('#appForm').addEventListener('input', saveDraft);
+  $('#appForm').addEventListener('change', saveDraft);
+  loadDraft();
 
   // 완료 화면 — 벗에게 이벤트 공유하기 (카톡/X/블로그/링크 복사)
   const EVT_URL = 'https://worxphere-event.github.io/vibeathon26/';
