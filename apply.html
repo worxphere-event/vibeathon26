@@ -440,15 +440,7 @@
     $('#personalityField').classList.toggle('hidden', !isRandom);
     $('#randomLeaderField').classList.toggle('hidden', !isRandom);
     $('#teamNameField').classList.toggle('hidden', !(isTeam||isSolo1));   // 팀/1인팀만 팀명
-    $('#leaderNameField').classList.toggle('hidden', !(isTeam||isSolo1)); // 팀/1인팀만 팀장이름
-    // 1인팀 선택 시: 성함이 있고 팀장 이름이 비어 있으면 자동 입력
-    if (isSolo1) {
-      const nm = ($('#name').value||'').trim(), ln = $('#leaderName');
-      if (nm && ln && !(ln.value||'').trim()) {
-        ln.value = nm;
-        ln.dispatchEvent(new Event('input', { bubbles:true }));
-      }
-    }
+    $('#leaderNameField').classList.toggle('hidden', !isTeam); // 2인 이상 팀만 팀장 이름 (1인 팀은 본인 = 팀장 자동)
   }));
 
   // 팀 내 역할 = 팀장 선택 시: 팀장 이름 자동 입력 (비어 있을 때만)
@@ -499,7 +491,7 @@
     if(isRandom && !personality) return toast('성향을 선택해 주세요');
     if(isRandom && !randomLeader) return toast('팀장 의향을 선택해 주세요');
     if((isTeam||isSolo1) && !v('teamName')) return toast('팀명을 입력해 주세요');
-    if((isTeam||isSolo1) && !v('leaderName')) return toast('팀장의 이름을 입력해 주세요');
+    if(isTeam && !v('leaderName')) return toast('팀장의 이름을 입력해 주세요');
     if(!aiexp) return toast('AI 툴 사용 경험을 선택해 주세요');
     if(!reason) return toast('신청 이유를 선택해 주세요');
     if(reason==='기타'){ const e1=v('reasonEtc'); if(!e1) return toast('기타 사유를 입력해 주세요'); reason='기타: '+e1; }
@@ -512,7 +504,7 @@
     set('entry.1586168176',name); set('entry.1651421180',phone); set('entry.2032015497',v('memberId'));
     set('entry.1161341054',jobGroup); set('entry.682276939',career); set('entry.1215183855',join);
     set('entry.416029178', isTeam ? leaderRole : (isRandom ? '랜덤 매칭 - '+randomLeader : '')); set('entry.1271360449',personality);
-    set('entry.2091082383',v('teamName')); set('entry.305763739',v('leaderName'));
+    set('entry.2091082383',v('teamName')); set('entry.305763739', isTeam ? v('leaderName') : (isSolo1 ? name : ''));
     set('entry.598308781',aiexp); set('entry.832638958',reason); set('entry.475867511',source); set('entry.48496942',motive);
     set('entry.1801479883','동의합니다.'); set('entry.1350818787','동의합니다.'); set('entry.477702631','동의합니다.');
 
