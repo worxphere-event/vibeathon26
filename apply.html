@@ -345,8 +345,9 @@
 <div class="toast" id="toast"></div>
 
 <!-- 우하단 플로팅 버튼 -->
-<div class="fab-stack">
+<div class="fab-stack" id="fabStack">
   <button type="button" class="fab fab-top" id="fabTop" aria-label="맨 위로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <button type="button" class="fab" id="fabShare" aria-label="공유하기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg></button>
 </div>
 
 <!-- 구글폼 제출용 (hidden) — entry 번호는 새 구글폼 생성 후 교체 -->
@@ -491,6 +492,7 @@
     f.submit();
     $('#formArea').style.display='none';
     $('#doneScreen').classList.add('show');
+    hideFabShare();
     window.scrollTo({top:0});
   });
 
@@ -498,6 +500,12 @@
   const fabTop = $('#fabTop');
   fabTop.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
   window.addEventListener('scroll', ()=>fabTop.classList.toggle('show', window.scrollY>300));
+  $('#fabShare').addEventListener('click', async ()=>{
+    if(navigator.share){ try{ await navigator.share({title:EVT_TITLE, text:EVT_TEXT, url:EVT_URL}); }catch(e){} }
+    else copyEvtLink('이벤트 링크가 복사되었어요');
+  });
+  // 완료 화면에서는 우하단 공유 버튼 숨김 (완료 화면 자체에 공유 채널이 있음)
+  function hideFabShare(){ const b=$('#fabShare'); if(b) b.style.display='none'; }
 
   // 완료 화면 — 벗에게 이벤트 공유하기 (카톡/X/블로그/링크 복사)
   const EVT_URL = 'https://worxphere-event.github.io/vibeathon26/';
@@ -513,7 +521,7 @@
   $('#shCopy').addEventListener('click', ()=> copyEvtLink('이벤트 링크가 복사되었어요'));
 
   const _pv = new URLSearchParams(location.search).get('preview');
-  if(_pv==='done'){ $('#formArea').style.display='none'; $('#doneScreen').classList.add('show'); }
+  if(_pv==='done'){ $('#formArea').style.display='none'; $('#doneScreen').classList.add('show'); hideFabShare(); }
 </script>
 </body>
 </html>
