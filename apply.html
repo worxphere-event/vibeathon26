@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>잡코리아 바이브톤 응시 원서</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'YeongyanggunEumsikdimibang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2104@1.1/dimibang_new.woff') format('woff');
+    font-weight: normal; font-display: swap;
+  }
+  :root{ --ink:#401504; --cream:#F6E9CD; --juchil:#A6371F; --paper:#EBDCBC; --paper-card:#FBF5E6; --gray50:#F3E8CF; --g900:#2A1D12; --g800:#5A4632; --g500:#9C8A70; --border:#D8C6A4; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }  html,body { margin:0; padding:0; }
+  body { font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;
+    background:var(--paper);
+    background-image:radial-gradient(rgba(64,21,4,0.035) 1px, transparent 1px);
+    background-size:5px 5px;
+    color:var(--g900); -webkit-font-smoothing:antialiased; line-height:1.6; letter-spacing:-0.012em; }
+  .dimibang { font-family:'YeongyanggunEumsikdimibang','Pretendard',serif; letter-spacing:0; }
+  /* 탭/클릭 시 먹물 자국 (메인 페이지와 동일) */
+  .ink-splat { position:fixed; z-index:9999; pointer-events:none; width:var(--s); height:var(--s); transform:translate(-50%,-50%); }
+  .ink-splat::before { content:''; position:absolute; inset:0; background:var(--ink); border-radius:var(--r); animation:inkBlob .7s ease-out forwards; }
+  .ink-splat i { position:absolute; left:50%; top:50%; background:var(--ink); border-radius:50%; animation:inkDrop .7s ease-out forwards; }
+  @keyframes inkBlob { 0%{ transform:scale(.15); opacity:.6; } 60%{ opacity:.32; } 100%{ transform:scale(1); opacity:0; } }
+  @keyframes inkDrop { 0%{ transform:translate(-50%,-50%); opacity:.55; } 100%{ transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))); opacity:0; } }
+  .wrap { max-width:480px; margin:0 auto; min-height:100vh; background:var(--paper-card); box-shadow:0 0 40px rgba(64,21,4,.12); border-left:1px solid var(--border); border-right:1px solid var(--border); position:relative; z-index:1; }
+
+  /* 위아래 족자 봉 */
+  .scroll-bar { height:22px; margin:0 6px; background:linear-gradient(180deg,#7A4A28 0%,#401504 45%,#2E0F02 56%,#7A4A28 100%); border-radius:11px; box-shadow:0 3px 10px rgba(64,21,4,.3); position:relative; }
+  .scroll-bar::before, .scroll-bar::after { content:''; position:absolute; top:50%; transform:translateY(-50%); width:24px; height:30px; background:linear-gradient(180deg,#6B3A1C,#401504); border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,.25); }
+  .scroll-bar::before { left:-10px; } .scroll-bar::after { right:-10px; }
+  .scroll-top { margin-top:14px; } .scroll-bottom { margin-bottom:24px; }
+
+  /* 양옆 캐릭터 (누끼 효과 = mix-blend-mode, 데스크톱만) */
+  .char-deco { position:fixed; width:175px; pointer-events:none; z-index:0; transform-origin:bottom center; will-change:transform, opacity; opacity:0; transition:opacity .6s ease; }
+  .char-deco.show { opacity:1; }
+  /* 캐릭터별 성격 모션 */
+  @keyframes typing { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-2.5px); } }       /* 타이핑 달달달 */
+  @keyframes pointing { 0%,100%{ transform:rotate(-3deg); } 50%{ transform:rotate(1.5deg); } }          /* 가리키기 까딱 */
+  @keyframes walking { 0%,100%{ transform:translateY(0) rotate(-2.5deg); } 50%{ transform:translateY(-5px) rotate(2.5deg); } } /* 뒤뚱 걷기 */
+  @keyframes reacting { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }         /* 놀람 들썩 */
+  @keyframes chilling { 0%,100%{ transform:rotate(-1.5deg); } 50%{ transform:rotate(1.5deg); } }         /* 느긋 끄덕 */
+  .cL0{ left:34px;  top:84px;     animation:reacting 2.2s ease-in-out infinite; }   /* char_0 경국지색(놀람) */
+  .cL1{ left:60px;  top:44%;      animation:typing 0.55s ease-in-out infinite; }    /* char_3 야근 타이핑 */
+  .cL2{ left:30px;  bottom:30px;  animation:walking 0.7s ease-in-out infinite; }    /* char_4 배포 걷기 */
+  /* 폼(480px) 바깥 여백에 딱 붙도록 calc로 고정 → 폼에 안 가림 */
+  .cR0{ left:calc(50% - 432px);  top:150px;    animation:typing 0.65s ease-in-out infinite; }    /* char_1 타이핑 (좌·상) */
+  .cR1{ right:calc(50% - 432px); top:44%;      animation:pointing 1.6s ease-in-out infinite; }   /* char_2 가리키기 (우·중) */
+  .cScroll{ left:calc(50% - 432px); bottom:96px; width:178px; animation:chilling 3s ease-in-out infinite; }  /* 두루마리 이력서 (좌·하) */
+  @media (max-width:1024px){ .char-deco{ display:none; } }
+
+  .topbar { display:flex; align-items:center; height:44px; padding:6px 20px 0; background:transparent; }
+  .topbar a { font-size:14px; color:var(--g800); text-decoration:none; }
+  .topbar a:before { content:"‹ "; }
+
+  .form-area { padding:36px 24px 120px; }
+  .form-title { font-size:clamp(34px, 10vw, 44px); color:var(--ink); text-align:center; margin:0 0 8px; line-height:1.14; }
+  .form-sub { font-size:14px; color:var(--g500); text-align:center; margin:0 0 36px; }
+
+  .section { margin-bottom:40px; }
+  /* ⬇ 섹션 제목(중제) — 더 굵게 + 사이즈 업 */
+  .section-label { font-size:22px; color:var(--ink); margin:0 0 18px; padding-bottom:10px; border-bottom:2px solid var(--cream); -webkit-text-stroke:0.2px var(--ink); }
+  .field { margin-bottom:22px; } .field:last-child { margin-bottom:0; } .field.hidden { display:none; }
+  label.q { display:block; font-size:15px; font-weight:600; margin-bottom:8px; color:var(--g900); }
+  .req { color:var(--juchil); margin-left:2px; }
+  .opt-tag { color:var(--g500); font-weight:400; font-size:13px; }
+  .hint { font-size:12px; color:var(--g500); margin:6px 0 0; }
+  .q-side { font-size:12px; font-weight:400; color:var(--g500); margin-left:6px; }
+
+  /* 칸 완료 체크 액션 (붕개팅 스타일) */
+  .field.complete > label.q::after,
+  .field.complete > .label-row label.q::after {
+    content:"✓"; display:inline-block; margin-left:7px; color:var(--ink); font-weight:800; font-size:15px;
+    animation:pop .32s ease;
+  }
+  @keyframes pop { 0%{transform:scale(0);opacity:0} 60%{transform:scale(1.3)} 100%{transform:scale(1);opacity:1} }
+
+  /* 잡코리아 ID 도움말 (워크페스트 양식) */
+  .label-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .label-row label.q { margin-bottom:0; }
+  .help-link-text { font-size:12px; font-weight:500; color:#6B7684; background:none; border:none; padding:0; cursor:pointer; font-family:inherit; text-decoration:underline; text-underline-offset:3px; }
+  .help-link-text:hover { color:var(--ink); }
+  .help-panel { margin:8px 0 0; padding:16px; background:var(--gray50); border:1px solid var(--border); border-radius:10px; }
+  .help-item { display:flex; align-items:center; gap:8px; margin-bottom:10px; overflow-x:auto; }
+  .help-tag { flex:none; font-size:11px; font-weight:700; color:#fff; background:var(--ink); border-radius:5px; padding:2px 7px; line-height:1.6; }
+  .help-text { font-size:11.5px; color:var(--g800); line-height:1.6; white-space:nowrap; letter-spacing:-0.02em; }
+  .inline-svg { width:14px; height:14px; vertical-align:-2px; margin:0 1px; }
+  .help-link { display:flex; align-items:center; justify-content:space-between; margin-top:4px; padding:11px 14px; background:#fff; border:1px solid var(--ink); border-radius:8px; color:var(--ink); font-size:13px; font-weight:600; text-decoration:none; transition:background .15s, color .15s; }
+  .help-link:hover { background:var(--ink); color:#fff; }
+  .help-arrow { font-weight:700; }
+
+  input[type=text],input[type=tel],input[type=email],textarea,select {
+    width:100%; border:1.5px solid var(--border); border-radius:10px; padding:14px 16px; font-size:15px; font-family:inherit; color:var(--g900); background:#FDFAF1; outline:none; transition:border-color .15s;
+  }
+  input:focus,textarea:focus,select:focus { border-color:var(--ink); }
+  textarea { resize:vertical; min-height:96px; }
+  select { appearance:none; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%239E9E9E' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>"); background-repeat:no-repeat; background-position:right 14px center; padding-right:42px; }
+
+  .chips { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .chips-3 { grid-template-columns:repeat(3,1fr); }
+  .chip { position:relative; } .chip input { position:absolute; opacity:0; }
+  .chip label { display:flex; align-items:center; justify-content:center; text-align:center; padding:14px; border:1px solid var(--border); border-radius:12px; font-size:15px; font-weight:500; color:var(--g800); cursor:pointer; transition:all .15s; line-height:1.3; }
+  .chips-3 .chip label { font-size:13.5px; padding:13px 4px; min-height:50px; }
+  .chip input:checked + label { border-color:var(--ink); background:var(--ink); color:var(--cream); font-weight:700; }
+
+  .opt { display:block; padding:15px 16px; border:1.5px solid var(--border); border-radius:12px; cursor:pointer; margin-bottom:8px; transition:all .15s; }
+  .opt:last-child { margin-bottom:0; }
+  .opt input { display:none; }
+  .opt span { font-size:15px; color:var(--g900); }
+  .opt.checked { border-color:var(--ink); background:var(--cream); }
+  .opt.checked span { font-weight:600; color:var(--ink); }
+  .opt:not(.checked):hover { background:#EFE3C8; border-color:var(--g500); }
+  .chip label:hover { background:#EFE3C8; }
+  .chip input:checked + label { background:var(--ink); }
+  .etc-input { margin-top:8px; }
+  .etc-input.hidden { display:none; }
+
+  .agree-wrap { background:var(--gray50); border-radius:16px; padding:20px; }
+  .agree-all { display:flex; align-items:center; gap:10px; padding-bottom:14px; margin-bottom:14px; border-bottom:1px solid var(--border); cursor:pointer; }
+  .agree-all input { width:20px; height:20px; accent-color:var(--ink); }
+  .agree-all b { font-size:16px; }
+  .agree-item { margin-bottom:12px; }
+  .agree-row { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .agree-row label { display:flex; align-items:center; gap:9px; cursor:pointer; font-size:14px; }
+  .agree-row input { width:18px; height:18px; accent-color:var(--ink); flex:none; }
+  .tag-req { color:var(--juchil); font-weight:700; font-size:13px; }
+  .see-more { font-size:12px; color:var(--g500); text-decoration:underline; background:none; border:none; cursor:pointer; font-family:inherit; transition:color .15s; }
+  .see-more:hover { color:var(--ink); }
+  .terms { display:none; margin-top:8px; padding:14px; background:#fff; border:1px solid var(--border); border-radius:10px; font-size:12.5px; color:var(--g800); line-height:1.7; white-space:pre-line; }
+  .terms.open { display:block; }
+
+  .submit-btn { width:100%; height:66px; border:none; border-radius:16px; background:var(--ink); color:#fff; font-size:24px; cursor:pointer; margin-top:12px; transition:background .15s, transform .15s; }
+  .submit-btn:hover { background:#5A2E14; }
+  .submit-btn:active { transform:scale(.99); }
+
+  .done { display:none; text-align:center; padding:120px 24px; min-height:70vh; }
+  .done.show { display:block; }
+  .done .icon { font-size:56px; line-height:1; margin-bottom:20px; }
+  .done h2 { font-family:'YeongyanggunEumsikdimibang','Pretendard',serif; font-size:36px; color:var(--ink); margin:0 0 14px; }
+  .done p { font-size:15px; color:var(--g800); margin:0 auto 28px; max-width:320px; line-height:1.7; }
+  .done .home-btn { display:inline-flex; height:52px; align-items:center; padding:0 32px; background:#fff; border:1.5px solid var(--ink); border-radius:14px; color:var(--ink); font-size:15px; font-weight:600; text-decoration:none; transition:background .15s, color .15s; }
+  .done .home-btn:hover { background:var(--ink); color:#fff; }
+
+  .opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .opt-grid .opt { margin-bottom:0; }
+
+  /* 팀명 중복 확인 모달 */
+  .modal-ov { position:fixed; inset:0; background:rgba(42,29,18,.55); display:flex; align-items:center; justify-content:center; padding:24px; z-index:200; opacity:0; pointer-events:none; transition:opacity .2s; }
+  .modal-ov.show { opacity:1; pointer-events:auto; }
+  .modal { background:var(--paper-card); border:1.5px solid var(--ink); border-radius:18px; padding:32px 24px 24px; max-width:340px; width:100%; text-align:center; box-shadow:0 14px 44px rgba(64,21,4,.3); }
+  .modal-icon { font-size:42px; margin-bottom:12px; line-height:1; }
+  .modal-q { font-size:18px; color:var(--ink); margin:0 0 8px; font-weight:700; }
+  .modal-q b { color:var(--juchil); }
+  .modal-sub { font-size:13px; color:var(--g800); margin:0 0 22px; line-height:1.6; }
+  .modal-btns { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .modal-btns button { height:50px; border-radius:12px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; }
+  .modal-no { background:#fff; color:var(--ink); border:1.5px solid var(--ink); }
+  .modal-yes { background:var(--ink); color:#fff; border:1.5px solid var(--ink); }
+
+  .toast { position:fixed; left:50%; bottom:40px; transform:translateX(-50%); background:rgba(34,34,34,.92); color:#fff; padding:12px 20px; border-radius:24px; font-size:14px; z-index:100; opacity:0; transition:opacity .2s; pointer-events:none; white-space:nowrap; }
+  .toast.show { opacity:1; }
+
+  /* 우하단 플로팅 버튼 (공유 / 맨위로) — 메인 페이지와 동일 */
+  .fab-stack { position:fixed; right:max(20px, calc(50% - 330px)); bottom:20px; z-index:60; display:flex; flex-direction:column; gap:12px; }
+  .fab { width:52px; height:52px; border-radius:50%;
+    background:linear-gradient(145deg, #5A2E14 0%, var(--ink) 60%);
+    color:var(--cream); border:1px solid rgba(246,233,205,.25);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 18px rgba(64,21,4,.32), inset 0 1px 0 rgba(255,255,255,.14);
+    cursor:pointer; transition:transform .18s, box-shadow .18s, opacity .25s, visibility .25s; }
+  .fab:hover { transform:translateY(-2px); box-shadow:0 10px 24px rgba(64,21,4,.4), inset 0 1px 0 rgba(255,255,255,.14); }
+  .fab:active { transform:scale(.92); }
+  .fab svg { width:20px; height:20px; }
+  .fab-top { opacity:0; visibility:hidden; }
+  .fab-top.show { opacity:1; visibility:visible; }
+</style>
+</head>
+<body>
+<!-- 우측 캐릭터 3종 (누끼 투명, 데스크톱 넓은 화면에서만) -->
+<img class="char-deco cR0" src="char_1.png"><img class="char-deco cR1" src="char_2.png"><img class="char-deco cScroll" src="scroll.png">
+
+<div class="wrap">
+  <div class="scroll-bar scroll-top"></div>
+
+  <div class="topbar"><a href="index.html">이벤트 보기</a></div>
+
+  <div class="form-area" id="formArea">
+    <h1 class="form-title dimibang">응시 원서</h1>
+    <p class="form-sub">아래 명부를 작성하여 응시생에 이름을 올리시오</p>
+
+    <form id="appForm" autocomplete="off">
+
+      <!-- 섹션 1. 기본 정보 -->
+      <div class="section">
+        <div class="field"><label class="q">성함<span class="req">*</span></label><input type="text" id="name" placeholder="성함을 작성해 주세요"></div>
+        <div class="field"><label class="q">휴대폰 번호<span class="req">*</span><span class="q-side">하이픈(-) 없이 숫자만 작성해 주세요</span></label><input type="tel" id="phone" inputmode="numeric" placeholder="01012345678"></div>
+        <div class="field">
+          <div class="label-row">
+            <label class="q">잡코리아 ID <span class="opt-tag">(선택)</span><span class="q-side">작성 시 우선 선발 대상자가 돼요</span></label>
+            <button type="button" class="help-link-text" id="idHelpBtn">아이디 확인하는 법</button>
+          </div>
+          <input type="text" id="memberId" placeholder="잡코리아 회원 아이디" maxlength="30">
+          <div class="help-panel" id="memberIdPanel" hidden>
+            <div class="help-item">
+              <span class="help-tag">PC</span>
+              <span class="help-text">로그인 → 프로필 아이콘 → 개인정보 수정 → 아이디 확인</span>
+            </div>
+            <div class="help-item">
+              <span class="help-tag">MO</span>
+              <span class="help-text">로그인 → 우측 하단 MY → 우측 상단 설정 → 연락처 정보 → 아이디 확인</span>
+            </div>
+            <a href="https://www.jobkorea.co.kr/Login/Login_Tot.asp" target="_blank" rel="noopener" class="help-link">
+              <span>잡코리아 바로가기</span><span class="help-arrow">→</span>
+            </a>
+          </div>
+        </div>
+        <div class="field">
+          <label class="q">직군<span class="req">*</span></label>
+          <div class="chips">
+            <div class="chip"><input type="radio" name="jobGroup" id="jg1" value="AI·개발·데이터"><label for="jg1">AI·개발·데이터</label></div>
+            <div class="chip"><input type="radio" name="jobGroup" id="jg2" value="기획·전략"><label for="jg2">기획·전략</label></div>
+            <div class="chip"><input type="radio" name="jobGroup" id="jg3" value="디자인"><label for="jg3">디자인</label></div>
+            <div class="chip"><input type="radio" name="jobGroup" id="jg4" value="기타"><label for="jg4">기타 (마케팅·영업·HR 등)</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="q">연차<span class="req">*</span></label>
+          <div class="chips chips-3">
+            <div class="chip"><input type="radio" name="career" id="cr1" value="학생·취준생"><label for="cr1">학생·취준생</label></div>
+            <div class="chip"><input type="radio" name="career" id="cr2" value="1~3년 차"><label for="cr2">1~3년 차</label></div>
+            <div class="chip"><input type="radio" name="career" id="cr3" value="4~6년 차"><label for="cr3">4~6년 차</label></div>
+            <div class="chip"><input type="radio" name="career" id="cr4" value="7~9년 차"><label for="cr4">7~9년 차</label></div>
+            <div class="chip"><input type="radio" name="career" id="cr5" value="10년 차 이상"><label for="cr5">10년 차 이상</label></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 섹션 2. 팀 구성 -->
+      <div class="section">
+        <div class="field">
+          <label class="q">참여 형태<span class="req">*</span></label>
+          <label class="opt"><input type="radio" name="join" value="팀으로 신청합니다 (최대 3인)"><span>팀으로 신청합니다 (최대 3인)</span></label>
+          <label class="opt"><input type="radio" name="join" value="1인팀으로 신청합니다"><span>1인팀으로 신청합니다</span></label>
+          <label class="opt"><input type="radio" name="join" value="혼자 신청하며, 랜덤 팀 매칭 희망합니다"><span>혼자 신청하며, 랜덤 팀 매칭 희망합니다</span></label>
+        </div>
+
+        <!-- 7-1. 팀으로 신청 시 -->
+        <div class="field hidden" id="leaderRoleField">
+          <label class="q">팀 내 역할<span class="req">*</span></label>
+          <label class="opt"><input type="radio" name="leaderRole" value="팀장입니다"><span>팀장입니다</span></label>
+          <label class="opt"><input type="radio" name="leaderRole" value="팀원입니다"><span>팀원입니다</span></label>
+        </div>
+
+        <!-- 7-2. 혼자+랜덤 매칭 시 -->
+        <div class="field hidden" id="personalityField">
+          <label class="q">나의 성향<span class="req">*</span><span class="q-side">성향을 반영해 매칭해 드릴게요</span></label>
+          <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 먼저 말을 거는 편입니다"><span>처음 본 사람에게 먼저 말을 거는 편입니다</span></label>
+          <label class="opt"><input type="radio" name="personality" value="처음 본 사람에게 낯을 가리는 편입니다"><span>처음 본 사람에게 낯을 가리는 편입니다</span></label>
+        </div>
+
+        <!-- 8. 팀명 (팀/1인팀) -->
+        <div class="field hidden" id="teamNameField">
+          <label class="q">팀명<span class="req">*</span><span class="q-side">15자 이내</span></label>
+          <input type="text" id="teamName" placeholder="팀 이름을 입력해 주세요 (15자 이내)" maxlength="15">
+        </div>
+
+        <!-- 9. 팀장 이름 (팀/1인팀) -->
+        <div class="field hidden" id="leaderNameField">
+          <label class="q">팀장의 이름<span class="req">*</span><span class="q-side">팀원도 각자 제출, 팀명으로 매칭해요</span></label>
+          <input type="text" id="leaderName" placeholder="팀장 이름 (본인이 팀장이면 본인 이름)">
+        </div>
+
+      </div>
+
+      <!-- 섹션 3. 선발 판단용 -->
+      <div class="section">
+        <div class="field">
+          <label class="q">AI 툴 사용 경험<span class="req">*</span></label>
+          <label class="opt"><input type="radio" name="aiexp" value="레벨 1 - 챗GPT나 제미나이와 대화해 본 적 있다"><span>레벨 1 - 챗GPT나 제미나이와 대화해 본 적 있다</span></label>
+          <label class="opt"><input type="radio" name="aiexp" value="레벨 2 - 바이브 코딩으로 대시보드 또는 웹 사이트를 만든 적이 있다"><span>레벨 2 - 바이브 코딩으로 대시보드 또는 웹 사이트를 만든 적이 있다</span></label>
+          <label class="opt"><input type="radio" name="aiexp" value="레벨 3 - 난 사실 개발자다"><span>레벨 3 - 난 사실 개발자다</span></label>
+        </div>
+        <div class="field">
+          <label class="q">신청 이유<span class="req">*</span></label>
+          <label class="opt"><input type="radio" name="reason" value="커리어 성장 및 취업/이직 준비를 위해"><span>커리어 성장 및 취업/이직 준비를 위해</span></label>
+          <label class="opt"><input type="radio" name="reason" value="그냥 재밌어 보여서"><span>그냥 재밌어 보여서</span></label>
+          <label class="opt"><input type="radio" name="reason" value="회사 밖 사람들과 교류를 위해"><span>회사 밖 사람들과 교류를 위해</span></label>
+          <label class="opt"><input type="radio" name="reason" value="기타"><span>기타</span></label>
+          <input type="text" class="etc-input hidden" id="reasonEtc" placeholder="기타 사유를 적어주세요">
+        </div>
+        <div class="field">
+          <label class="q">유입 경로<span class="req">*</span></label>
+          <div class="opt-grid">
+            <label class="opt"><input type="radio" name="source" value="잡코리아 팝업·배너"><span>잡코리아 팝업·배너</span></label>
+            <label class="opt"><input type="radio" name="source" value="잡코리아 공지·콘텐츠"><span>잡코리아 공지·콘텐츠</span></label>
+            <label class="opt"><input type="radio" name="source" value="광고(인스타·스레드·페북)"><span>광고(인스타·스레드·페북)</span></label>
+            <label class="opt"><input type="radio" name="source" value="지인 추천"><span>지인 추천</span></label>
+            <label class="opt"><input type="radio" name="source" value="기타"><span>기타</span></label>
+          </div>
+          <input type="text" class="etc-input hidden" id="sourceEtc" placeholder="기타 경로를 적어주세요" style="margin-top:8px">
+        </div>
+        <div class="field">
+          <label class="q">잡코리아 바이브톤을 신청한 이유는 무엇인가요?<span class="req">*</span><br><span class="q-side" style="margin-left:0">(나는 어떤 사람인지, 왜 이번 이벤트에 오고 싶은지 설명해 주세요)</span></label>
+          <textarea id="motive" placeholder="자유롭게 적어주세요"></textarea>
+        </div>
+      </div>
+
+      <!-- 섹션 5. 약관 동의 -->
+      <div class="section">
+        <div class="agree-wrap">
+          <label class="agree-all"><input type="checkbox" id="agreeAll"><b>약관 전체에 동의합니다</b></label>
+          <div class="agree-item">
+            <div class="agree-row"><label><input type="checkbox" class="agree-req" id="agree1"><span><span class="tag-req">[필수]</span> 개인정보 수집 및 이용 동의</span></label><button type="button" class="see-more" data-target="t1">자세히</button></div>
+            <div class="terms" id="t1">바이브톤 응시생 선발·운영 및 결과 안내를 위해 아래 정보를 수집하며, 목적 외 용도로는 절대 사용하지 않습니다. (동의하지 않을 경우 응모가 어렵습니다.)
+1. 수집 목적: 응시생 선발·운영 및 결과 안내
+2. 수집 항목: 성함, 휴대폰, 직군/연차, 응모 내용 (선택: 잡코리아 ID)
+3. 보유 및 이용 기간: 이벤트 종료 후 3개월
+※ 합격 여부와 일정은 기재해 주신 휴대폰으로 연락드립니다.</div>
+          </div>
+          <div class="agree-item">
+            <div class="agree-row"><label><input type="checkbox" class="agree-req" id="agree2"><span><span class="tag-req">[필수]</span> 사진·영상 촬영 및 활용 동의</span></label><button type="button" class="see-more" data-target="t2">자세히</button></div>
+            <div class="terms" id="t2">동의하지 않을 경우, 현장 참여가 제한될 수 있습니다.
+1. 촬영 항목: 행사 현장 사진·영상
+2. 활용 목적: 시상·단체사진·후기 콘텐츠 제작 및 잡코리아 공식 채널(인스타그램·유튜브 등)·PR 홍보 활용
+3. 보유 및 이용 기간: 촬영 원본은 행사 종료 후 1년 보관 후 파기, 공식 채널에 게시된 콘텐츠는 게시 기간 동안 활용</div>
+          </div>
+          <div class="agree-item" style="margin-bottom:0">
+            <div class="agree-row"><label><input type="checkbox" class="agree-req" id="agree3"><span><span class="tag-req">[필수]</span> 개인정보 제3자 제공 동의</span></label><button type="button" class="see-more" data-target="t3">자세히</button></div>
+            <div class="terms" id="t3">동의하지 않을 경우, 상금(경품) 수령이 불가합니다.
+1. 제공받는 자: (주)플랜피아
+2. 이용 목적: 상금(경품) 지급 대행 및 제세공과금 신고
+3. 제공 항목: 성함, 휴대폰
+4. 보유 및 이용 기간: 상금 지급일로부터 60일</div>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn dimibang">응시 원서 올리기</button>
+    </form>
+  </div>
+
+  <div class="scroll-bar scroll-bottom"></div>
+
+  <div class="done" id="doneScreen">
+    <div class="icon">💌</div>
+    <h2 class="dimibang">응시 접수 완료</h2>
+    <p>응모가 완료되었습니다.<br>선발 결과는 6/30(화) 17시,<br>기재해 주신 휴대폰으로 안내드립니다.<br><br>함께 신청하는 팀원이 있다면<br>팀원도 본 폼을 제출했는지 확인해 주세요!</p>
+    <a class="home-btn" href="index.html">이벤트 페이지로 돌아가기</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 우하단 플로팅 버튼 -->
+<div class="fab-stack">
+  <button type="button" class="fab fab-top" id="fabTop" aria-label="맨 위로"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+  <button type="button" class="fab" id="fabShare" aria-label="공유하기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg></button>
+</div>
+
+<!-- 구글폼 제출용 (hidden) — entry 번호는 새 구글폼 생성 후 교체 -->
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none"></iframe>
+<form id="googleForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdCFFBhdlGlU7-5ldar5XQEELalV4fLMBfcur_Kpq_dHB4FIQ/formResponse" method="POST" target="hidden_iframe" style="display:none">
+  <input type="text" name="entry.1586168176"><input type="text" name="entry.1651421180"><input type="text" name="entry.2032015497"><input type="text" name="entry.1161341054"><input type="text" name="entry.682276939"><input type="text" name="entry.1215183855"><input type="text" name="entry.416029178"><input type="text" name="entry.1271360449"><input type="text" name="entry.2091082383"><input type="text" name="entry.305763739"><input type="text" name="entry.598308781"><input type="text" name="entry.832638958"><input type="text" name="entry.475867511"><input type="text" name="entry.48496942"><input type="text" name="entry.1801479883"><input type="text" name="entry.1350818787"><input type="text" name="entry.477702631">
+</form>
+
+<script>
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+
+  // 탭/클릭 시 먹물 자국 퍼짐 (메인 페이지와 동일)
+  document.addEventListener('pointerdown', e => {
+    const s = document.createElement('div'); s.className = 'ink-splat';
+    s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px';
+    s.style.setProperty('--s', (38 + Math.random() * 26) + 'px');
+    s.style.setProperty('--r', `${40+Math.random()*25}% ${50+Math.random()*30}% ${45+Math.random()*30}% ${55+Math.random()*25}%`);
+    for (let i = 0; i < 3; i++) {
+      const d = document.createElement('i');
+      const a = Math.random() * Math.PI * 2, dist = 20 + Math.random() * 28;
+      d.style.setProperty('--dx', Math.cos(a) * dist + 'px');
+      d.style.setProperty('--dy', Math.sin(a) * dist + 'px');
+      d.style.width = d.style.height = (3 + Math.random() * 5) + 'px';
+      s.appendChild(d);
+    }
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 800);
+  }, { passive: true });
+
+  // 잡코리아 ID 도움말 토글
+  $('#idHelpBtn').addEventListener('click', () => {
+    const p = $('#memberIdPanel');
+    p.hidden = !p.hidden;
+    $('#idHelpBtn').classList.toggle('open', !p.hidden);
+  });
+
+  // 칸 완료 시 ✓ 체크 (붕개팅 스타일)
+  function evalField(field){
+    const radios=[...field.querySelectorAll('input[type=radio]')];
+    const checks=[...field.querySelectorAll('input[type=checkbox]')];
+    const sel=field.querySelector('select');
+    const txt=field.querySelector('input[type=text],input[type=tel],input[type=email],textarea');
+    let ok=false;
+    if(radios.length) ok=radios.some(r=>r.checked);
+    else if(checks.length) ok=checks.some(c=>c.checked);
+    else if(sel) ok=!!sel.value;
+    else if(txt) ok=!!(txt.value||'').trim();
+    field.classList.toggle('complete', ok);
+  }
+  $$('.form-area .field').forEach(field=>{
+    field.querySelectorAll('input,select,textarea').forEach(c=>{
+      c.addEventListener('input',()=>evalField(field));
+      c.addEventListener('change',()=>evalField(field));
+    });
+  });
+
+  // 참여 형태 분기
+  $$('input[name="join"]').forEach(r => r.addEventListener('change', () => {
+    const v = ($('input[name="join"]:checked')||{}).value || '';
+    const isTeam = v.startsWith('팀으로');
+    const isSolo1 = v.startsWith('1인팀');
+    const isRandom = v.startsWith('혼자');
+    $('#leaderRoleField').classList.toggle('hidden', !isTeam);
+    $('#personalityField').classList.toggle('hidden', !isRandom);
+    $('#teamNameField').classList.toggle('hidden', !(isTeam||isSolo1));   // 팀/1인팀만 팀명
+    $('#leaderNameField').classList.toggle('hidden', !(isTeam||isSolo1)); // 팀/1인팀만 팀장이름
+    // 1인팀 선택 시: 성함이 있고 팀장 이름이 비어 있으면 자동 입력
+    if (isSolo1) {
+      const nm = ($('#name').value||'').trim(), ln = $('#leaderName');
+      if (nm && ln && !(ln.value||'').trim()) {
+        ln.value = nm;
+        ln.dispatchEvent(new Event('input', { bubbles:true }));
+      }
+    }
+  }));
+
+  // 팀 내 역할 = 팀장 선택 시: 팀장 이름 자동 입력 (비어 있을 때만)
+  $$('input[name="leaderRole"]').forEach(r => r.addEventListener('change', () => {
+    if ((($('input[name="leaderRole"]:checked')||{}).value||'') !== '팀장입니다') return;
+    const nm = ($('#name').value||'').trim(), ln = $('#leaderName');
+    if (nm && ln && !(ln.value||'').trim()) { ln.value = nm; ln.dispatchEvent(new Event('input',{bubbles:true})); }
+  }));
+
+  // 기타 입력 토글 (신청 이유 / 유입 경로)
+  $$('input[name="reason"]').forEach(r => r.addEventListener('change', () =>
+    $('#reasonEtc').classList.toggle('hidden', ($('input[name="reason"]:checked')||{}).value !== '기타')));
+  $$('input[name="source"]').forEach(r => r.addEventListener('change', () =>
+    $('#sourceEtc').classList.toggle('hidden', ($('input[name="source"]:checked')||{}).value !== '기타')));
+
+  $$('.opt input').forEach(inp => inp.addEventListener('change', () => {
+    if (inp.type === 'radio') $$('input[name="'+inp.name+'"]').forEach(x => x.closest('.opt').classList.remove('checked'));
+    inp.closest('.opt').classList.toggle('checked', inp.checked);
+  }));
+  $$('.see-more').forEach(b => b.addEventListener('click', () => $('#'+b.dataset.target).classList.toggle('open')));
+  $('#agreeAll').addEventListener('change', e => $$('.agree-req').forEach(c => c.checked = e.target.checked));
+  $$('.agree-req').forEach(c => c.addEventListener('change', () => $('#agreeAll').checked = [...$$('.agree-req')].every(x => x.checked)));
+
+  function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+
+  let submitting=false;
+  $('#appForm').addEventListener('submit', e => {
+    e.preventDefault(); if(submitting) return;
+    const v=id=>($('#'+id).value||'').trim();
+    const name=v('name'), phone=$('#phone').value.replace(/[^0-9]/g,'');
+    const jobGroup=($('input[name="jobGroup"]:checked')||{}).value||'', career=($('input[name="career"]:checked')||{}).value||'';
+    const join=($('input[name="join"]:checked')||{}).value||'';
+    const isTeam=join.startsWith('팀으로'), isSolo1=join.startsWith('1인팀'), isRandom=join.startsWith('혼자');
+    const leaderRole=($('input[name="leaderRole"]:checked')||{}).value||'';
+    const personality=($('input[name="personality"]:checked')||{}).value||'';
+    const aiexp=($('input[name="aiexp"]:checked')||{}).value||'';
+    let reason=($('input[name="reason"]:checked')||{}).value||'';
+    let source=($('input[name="source"]:checked')||{}).value||'';
+    const motive=v('motive');
+
+    if(!name) return toast('성함을 입력해 주세요');
+    if(phone.length<10) return toast('휴대폰 번호를 정확히 입력해 주세요');
+    if(!jobGroup) return toast('직군을 선택해 주세요');
+    if(!career) return toast('연차를 선택해 주세요');
+    if(!join) return toast('참여 형태를 선택해 주세요');
+    if(isTeam && !leaderRole) return toast('팀 내 역할을 선택해 주세요');
+    if(isRandom && !personality) return toast('성향을 선택해 주세요');
+    if((isTeam||isSolo1) && !v('teamName')) return toast('팀명을 입력해 주세요');
+    if((isTeam||isSolo1) && !v('leaderName')) return toast('팀장의 이름을 입력해 주세요');
+    if(!aiexp) return toast('AI 툴 사용 경험을 선택해 주세요');
+    if(!reason) return toast('신청 이유를 선택해 주세요');
+    if(reason==='기타'){ const e1=v('reasonEtc'); if(!e1) return toast('기타 사유를 입력해 주세요'); reason='기타: '+e1; }
+    if(!source) return toast('유입 경로를 선택해 주세요');
+    if(source==='기타'){ const e2=v('sourceEtc'); if(!e2) return toast('기타 경로를 입력해 주세요'); source='기타: '+e2; }
+    if(!motive) return toast('신청한 이유를 입력해 주세요');
+    if(!$('#agree1').checked||!$('#agree2').checked||!$('#agree3').checked) return toast('필수 약관에 모두 동의해 주세요');
+
+    const f=$('#googleForm'), set=(k,val)=>{const el=f.querySelector('[name="'+k+'"]'); if(el) el.value=val;};
+    set('entry.1586168176',name); set('entry.1651421180',phone); set('entry.2032015497',v('memberId'));
+    set('entry.1161341054',jobGroup); set('entry.682276939',career); set('entry.1215183855',join);
+    set('entry.416029178',leaderRole); set('entry.1271360449',personality);
+    set('entry.2091082383',v('teamName')); set('entry.305763739',v('leaderName'));
+    set('entry.598308781',aiexp); set('entry.832638958',reason); set('entry.475867511',source); set('entry.48496942',motive);
+    set('entry.1801479883','동의합니다.'); set('entry.1350818787','동의합니다.'); set('entry.477702631','동의합니다.');
+
+    submitting=true;
+    f.submit();
+    $('#formArea').style.display='none';
+    $('#doneScreen').classList.add('show');
+    window.scrollTo({top:0});
+  });
+
+  // 스크롤 내릴 때 캐릭터 하나씩 등장 (붙박이 X)
+  const _chars = [...$$('.char-deco')];
+  function revealChars(){
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const p = max > 0 ? window.scrollY / max : 0;
+    if(_chars[0]) _chars[0].classList.toggle('show', p < 0.45);            // 상단
+    if(_chars[1]) _chars[1].classList.toggle('show', p >= 0.30 && p < 0.78); // 중간
+    if(_chars[2]) _chars[2].classList.toggle('show', p >= 0.62);           // 하단
+  }
+  window.addEventListener('scroll', revealChars, { passive:true });
+  window.addEventListener('resize', revealChars);
+  revealChars();
+
+  // 우하단 플로팅 버튼 (공유 / 맨위로)
+  const fabTop = $('#fabTop');
+  fabTop.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
+  window.addEventListener('scroll', ()=>fabTop.classList.toggle('show', window.scrollY>300));
+  $('#fabShare').addEventListener('click', async ()=>{
+    const url = location.href.split('?')[0];
+    const data = { title:'잡코리아 바이브톤', text:'AI에게 일 시킬 줄 아는 자, 바이브톤에 응시하라!', url };
+    if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
+    else { try{ await navigator.clipboard.writeText(url); toast('링크가 복사되었어요'); }catch(e){ toast('링크 복사에 실패했어요'); } }
+  });
+
+  const _pv = new URLSearchParams(location.search).get('preview');
+  if(_pv==='done'){ $('#formArea').style.display='none'; $('#doneScreen').classList.add('show'); }
+</script>
+</body>
+</html>
