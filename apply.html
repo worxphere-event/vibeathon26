@@ -119,14 +119,14 @@
   .submit-btn:hover { background:#5A2E14; }
   .submit-btn:active { transform:scale(.99); }
 
-  .done { display:none; text-align:center; padding:120px 24px; min-height:70vh; }
+  .done { display:none; text-align:center; padding:48px 24px 100px; min-height:70vh; }
   .done.show { display:block; }
   .done .icon { font-size:56px; line-height:1; margin-bottom:20px; }
   .done .done-char { width:200px; max-width:60%; height:auto; margin-bottom:16px; }
   .done h2 { font-family:'YeongyanggunEumsikdimibang','Pretendard',serif; font-size:36px; color:var(--ink); margin:0 0 14px; }
   .done p { font-size:15px; color:var(--g800); margin:0 auto 28px; max-width:320px; line-height:1.7; }
-  .done .home-btn { display:inline-flex; height:52px; align-items:center; padding:0 32px; background:#fff; border:1.5px solid var(--ink); border-radius:14px; color:var(--ink); font-size:15px; font-weight:600; text-decoration:none; transition:background .15s, color .15s; }
-  .done .home-btn:hover { background:var(--ink); color:#fff; }
+  .done .home-btn { display:inline-flex; height:52px; align-items:center; padding:0 32px; background:var(--ink); border:1.5px solid var(--ink); border-radius:14px; color:#fff; font-size:15px; font-weight:600; text-decoration:none; cursor:pointer; font-family:inherit; transition:background .15s, color .15s; }
+  .done .home-btn:hover { background:#5A2E14; }
 
   .opt-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
   .opt-grid .opt { margin-bottom:0; }
@@ -326,8 +326,8 @@
   <div class="done" id="doneScreen">
     <img class="done-char" src="seonbi.png" alt="">
     <h2 class="dimibang">응시 접수 완료</h2>
-    <p>응모가 완료되었습니다.<br>선발 결과는 6/30(화) 17시,<br>기재해 주신 휴대폰으로 안내드립니다.<br><br>함께 신청하는 팀원이 있다면<br>팀원도 본 폼을 제출했는지 확인해 주세요!</p>
-    <a class="home-btn" href="index.html">이벤트 페이지로 돌아가기</a>
+    <p><b>자네는 응시생으로 등록되었소</b><br><br>선발 결과는 6/26부터 6/30까지 문자/유선으로 안내할 터이니<br>핸드폰을 꼭 붙잡고 있으시오!</p>
+    <button type="button" class="home-btn" id="doneShare">벗에게 이벤트 공유하기</button>
   </div>
 
   <div class="scroll-bar scroll-bottom"></div>
@@ -495,6 +495,14 @@
     const data = { title:'잡코리아 바이브톤', text:'AI에게 일 시킬 줄 아는 자, 바이브톤에 응시하라!', url };
     if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
     else { try{ await navigator.clipboard.writeText(url); toast('링크가 복사되었어요'); }catch(e){ toast('링크 복사에 실패했어요'); } }
+  });
+
+  // 완료 화면 — 벗에게 이벤트 공유하기 (이벤트 메인 링크)
+  $('#doneShare').addEventListener('click', async ()=>{
+    const url = 'https://worxphere-event.github.io/vibeathon26/';
+    const data = { title:'잡코리아 바이브톤', text:'AI에게 일 시킬 줄 아는 자, 바이브톤에 응시하라!', url };
+    if(navigator.share){ try{ await navigator.share(data); }catch(e){} }
+    else { try{ await navigator.clipboard.writeText(url); toast('이벤트 링크가 복사되었어요'); }catch(e){ toast('링크 복사에 실패했어요'); } }
   });
 
   const _pv = new URLSearchParams(location.search).get('preview');
