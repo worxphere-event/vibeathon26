@@ -30,28 +30,10 @@
   .wrap { max-width:480px; margin:0 auto; min-height:100vh; background:var(--paper-card); box-shadow:0 0 40px rgba(64,21,4,.12); border-left:1px solid var(--border); border-right:1px solid var(--border); position:relative; z-index:1; }
 
   /* 위아래 족자 봉 */
-  .scroll-bar { height:22px; margin:0 6px; background:linear-gradient(180deg,#7A4A28 0%,#401504 45%,#2E0F02 56%,#7A4A28 100%); border-radius:11px; box-shadow:0 3px 10px rgba(64,21,4,.3); position:relative; }
+  .scroll-bar { height:22px; margin:0 6px; background:linear-gradient(180deg,#8A5630 0%,#5A2E14 40%,#401504 75%,#2E0F02 100%); border-radius:11px; box-shadow:0 3px 10px rgba(64,21,4,.3); position:relative; }
   .scroll-bar::before, .scroll-bar::after { content:''; position:absolute; top:50%; transform:translateY(-50%); width:24px; height:30px; background:linear-gradient(180deg,#6B3A1C,#401504); border-radius:6px; box-shadow:0 2px 5px rgba(0,0,0,.25); }
   .scroll-bar::before { left:-10px; } .scroll-bar::after { right:-10px; }
   .scroll-top { margin-top:14px; } .scroll-bottom { margin-bottom:24px; }
-
-  /* 양옆 캐릭터 (누끼 효과 = mix-blend-mode, 데스크톱만) */
-  .char-deco { position:fixed; width:175px; pointer-events:none; z-index:0; transform-origin:bottom center; will-change:transform, opacity; opacity:0; transition:opacity .6s ease; }
-  .char-deco.show { opacity:1; }
-  /* 캐릭터별 성격 모션 */
-  @keyframes typing { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-2.5px); } }       /* 타이핑 달달달 */
-  @keyframes pointing { 0%,100%{ transform:rotate(-3deg); } 50%{ transform:rotate(1.5deg); } }          /* 가리키기 까딱 */
-  @keyframes walking { 0%,100%{ transform:translateY(0) rotate(-2.5deg); } 50%{ transform:translateY(-5px) rotate(2.5deg); } } /* 뒤뚱 걷기 */
-  @keyframes reacting { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }         /* 놀람 들썩 */
-  @keyframes chilling { 0%,100%{ transform:rotate(-1.5deg); } 50%{ transform:rotate(1.5deg); } }         /* 느긋 끄덕 */
-  .cL0{ left:34px;  top:84px;     animation:reacting 2.2s ease-in-out infinite; }   /* char_0 경국지색(놀람) */
-  .cL1{ left:60px;  top:44%;      animation:typing 0.55s ease-in-out infinite; }    /* char_3 야근 타이핑 */
-  .cL2{ left:30px;  bottom:30px;  animation:walking 0.7s ease-in-out infinite; }    /* char_4 배포 걷기 */
-  /* 폼(480px) 바깥 여백에 딱 붙도록 calc로 고정 → 폼에 안 가림 */
-  .cR0{ left:calc(50% - 432px);  top:150px;    animation:typing 0.65s ease-in-out infinite; }    /* char_1 타이핑 (좌·상) */
-  .cR1{ right:calc(50% - 432px); top:44%;      animation:pointing 1.6s ease-in-out infinite; }   /* char_2 가리키기 (우·중) */
-  .cScroll{ left:calc(50% - 432px); bottom:96px; width:178px; animation:chilling 3s ease-in-out infinite; }  /* 두루마리 이력서 (좌·하) */
-  @media (max-width:1024px){ .char-deco{ display:none; } }
 
   .topbar { display:flex; align-items:center; height:44px; padding:6px 20px 0; background:transparent; }
   .topbar a { font-size:14px; color:var(--g800); text-decoration:none; }
@@ -140,6 +122,7 @@
   .done { display:none; text-align:center; padding:120px 24px; min-height:70vh; }
   .done.show { display:block; }
   .done .icon { font-size:56px; line-height:1; margin-bottom:20px; }
+  .done .done-char { width:200px; max-width:60%; height:auto; margin-bottom:16px; }
   .done h2 { font-family:'YeongyanggunEumsikdimibang','Pretendard',serif; font-size:36px; color:var(--ink); margin:0 0 14px; }
   .done p { font-size:15px; color:var(--g800); margin:0 auto 28px; max-width:320px; line-height:1.7; }
   .done .home-btn { display:inline-flex; height:52px; align-items:center; padding:0 32px; background:#fff; border:1.5px solid var(--ink); border-radius:14px; color:var(--ink); font-size:15px; font-weight:600; text-decoration:none; transition:background .15s, color .15s; }
@@ -180,9 +163,6 @@
 </style>
 </head>
 <body>
-<!-- 우측 캐릭터 3종 (누끼 투명, 데스크톱 넓은 화면에서만) -->
-<img class="char-deco cR0" src="char_1.png"><img class="char-deco cR1" src="char_2.png"><img class="char-deco cScroll" src="scroll.png">
-
 <div class="wrap">
   <div class="scroll-bar scroll-top"></div>
 
@@ -346,7 +326,7 @@
   <div class="scroll-bar scroll-bottom"></div>
 
   <div class="done" id="doneScreen">
-    <div class="icon">💌</div>
+    <img class="done-char" src="seonbi.png" alt="">
     <h2 class="dimibang">응시 접수 완료</h2>
     <p>응모가 완료되었습니다.<br>선발 결과는 6/30(화) 17시,<br>기재해 주신 휴대폰으로 안내드립니다.<br><br>함께 신청하는 팀원이 있다면<br>팀원도 본 폼을 제출했는지 확인해 주세요!</p>
     <a class="home-btn" href="index.html">이벤트 페이지로 돌아가기</a>
@@ -505,19 +485,6 @@
     $('#doneScreen').classList.add('show');
     window.scrollTo({top:0});
   });
-
-  // 스크롤 내릴 때 캐릭터 하나씩 등장 (붙박이 X)
-  const _chars = [...$$('.char-deco')];
-  function revealChars(){
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const p = max > 0 ? window.scrollY / max : 0;
-    if(_chars[0]) _chars[0].classList.toggle('show', p < 0.45);            // 상단
-    if(_chars[1]) _chars[1].classList.toggle('show', p >= 0.30 && p < 0.78); // 중간
-    if(_chars[2]) _chars[2].classList.toggle('show', p >= 0.62);           // 하단
-  }
-  window.addEventListener('scroll', revealChars, { passive:true });
-  window.addEventListener('resize', revealChars);
-  revealChars();
 
   // 우하단 플로팅 버튼 (공유 / 맨위로)
   const fabTop = $('#fabTop');
