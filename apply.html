@@ -268,9 +268,9 @@
           <label class="opt"><input type="radio" name="randomLeader" value="팀원을 원하오"><span>팀원을 원하오</span></label>
         </div>
 
-        <!-- 8. 팀명 (팀/1인팀) -->
+        <!-- 8. 팀명 (팀/1인팀 필수, 랜덤매칭+팀장 희망은 선택) -->
         <div class="field hidden" id="teamNameField">
-          <label class="q">팀명<span class="req">*</span><span class="q-side">최대 8자 이내</span></label>
+          <label class="q">팀명<span class="req" id="teamNameReq">*</span><span class="q-side">최대 8자 이내</span></label>
           <input type="text" id="teamName" placeholder="팀 이름을 작성하시오 (최대 8자)" maxlength="8">
         </div>
 
@@ -439,6 +439,18 @@
     });
   });
 
+  // 팀명 칸 노출 규칙: 팀/1인팀 = 필수, 랜덤매칭 + "팀장을 원하오" = 선택 입력
+  function updateTeamNameField(){
+    const v = ($('input[name="join"]:checked')||{}).value || '';
+    const isTeam = v.startsWith('2인'), isSolo1 = v.startsWith('1인 팀'), isRandom = v.startsWith('혼자');
+    const wantLead = (($('input[name="randomLeader"]:checked')||{}).value||'') === '팀장을 원하오';
+    const optional = isRandom && wantLead;
+    $('#teamNameField').classList.toggle('hidden', !(isTeam||isSolo1||optional));
+    $('#teamNameReq').style.display = optional ? 'none' : '';
+    $('#teamName').placeholder = optional ? '(선택) 팀명을 미리 지어두어도 좋소 (최대 8자)' : '팀 이름을 작성하시오 (최대 8자)';
+  }
+  $$('input[name="randomLeader"]').forEach(r => r.addEventListener('change', updateTeamNameField));
+
   // 참여 형태 분기
   $$('input[name="join"]').forEach(r => r.addEventListener('change', () => {
     const v = ($('input[name="join"]:checked')||{}).value || '';
@@ -448,7 +460,7 @@
     $('#leaderRoleField').classList.toggle('hidden', !isTeam);
     $('#personalityField').classList.toggle('hidden', !isRandom);
     $('#randomLeaderField').classList.toggle('hidden', !isRandom);
-    $('#teamNameField').classList.toggle('hidden', !(isTeam||isSolo1));   // 팀/1인팀만 팀명
+    updateTeamNameField();
     $('#leaderNameField').classList.toggle('hidden', !isTeam); // 2인 이상 팀만 팀장 이름 (1인 팀은 본인 = 팀장 자동)
   }));
 
