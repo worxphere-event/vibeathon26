@@ -1,0 +1,22 @@
+# 잡코리아 바이브톤 모집 사이트 — 검색 노출 정책 (2026-06-10, 한나님 지시)
+# 랜딩 분할 이미지가 구글 이미지 검색에 조각으로 노출되어 차단.
+# 페이지(index/apply)는 페이지 내 <meta name="robots" content="noindex">로 색인 제거.
+# robots.txt로 페이지를 막으면 구글이 noindex를 못 읽으므로, 페이지는 의도적으로 크롤 허용.
+
+User-agent: *
+
+# 랜딩 7분할 이미지 (이미지 검색 조각 노출 주범)
+Disallow: /landing_01.jpg
+Disallow: /landing_02.jpg
+Disallow: /landing_03.jpg
+Disallow: /landing_04.jpg
+Disallow: /landing_05.jpg
+Disallow: /landing_06.jpg
+Disallow: /landing_07.jpg
+Disallow: /seonbi.png
+
+# 백업 폴더 (혹시 푸시될 경우 대비)
+Disallow: /_backup_landing_0608/
+
+# OG 메타이미지는 공유 미리보기용으로 허용
+Allow: /og.png
