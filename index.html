@@ -6,6 +6,8 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta name="robots" content="noindex, nofollow">
 <title>잡코리아 바이브톤 응시생 모집</title>
+<meta name="description" content="AI에게 일 시킬 줄 아는 자, 바이브톤에 응시하라! 장원급제 시 상금 100만 원, 직무 제한 없이 누구나 응시 가능하오 (~6/25까지).">
+<meta name="googlebot" content="noindex, nofollow">
 <meta property="og:type" content="website">
 <meta property="og:title" content="[무료] 삼시 세끼 챙겨주는 잡코리아 바이브톤">
 <meta property="og:description" content="장원급제 시 상금 100만 원, 직무 제한 없이 누구나 응시 가능하오(~6/25까지)">
@@ -117,13 +119,8 @@
   <button type="button" class="fab" id="fabShare" aria-label="공유하기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg></button>
 </div>
 
-<!-- 우측 영상 팝업 (영상 나오면 VIDEO_URL만 넣으면 자동 재생) -->
-<div class="vid-pop" id="vidPop">
-  <div class="vid-pop-head" id="vidHead"><span><span class="grip">⠿</span>👤내가 장원급제할 상인가?</span><button class="vid-pop-close" id="vidClose" aria-label="닫기">×</button></div>
-  <div class="vid-pop-body" id="vidBody">
-    <div class="vid-ph">영상 자리 (추후 삽입)</div>
-  </div>
-</div>
+<!-- 영상 팝업 제거됨 (2026-06-10, 검색 노출·노이즈). 영상 확정 시 git 히스토리에서 복원 -->
+
 
 <script>
   // 하단 신청 버튼 보이면 sticky 숨김 (중복 방지)
@@ -163,57 +160,7 @@
   fabTop.addEventListener('click', ()=>window.scrollTo({top:0, behavior:'smooth'}));
   window.addEventListener('scroll', ()=>fabTop.classList.toggle('show', window.scrollY>300), {passive:true});
 
-  // 영상 팝업 — 영상 나오면 아래 VIDEO_URL에 유튜브 embed 주소만 넣으세요
-  const VIDEO_URL = ''; // 영상 제외 버전 — 영상 나오면 index.html 사용
-  const vidPop = document.getElementById('vidPop');
-  if (VIDEO_URL) {
-    const body = document.getElementById('vidBody');
-    if (/\.(mp4|mov|webm|m4v)$/i.test(VIDEO_URL)) {
-      body.innerHTML = '<video id="popVid" src="'+VIDEO_URL+'" autoplay loop playsinline></video><button class="vid-mute" id="vidMute" aria-label="소리">🔊</button>';
-      const v = document.getElementById('popVid'), mb = document.getElementById('vidMute');
-      // 자동 소리 ON 시도 → 브라우저가 막으면 음소거로 폴백
-      v.muted = false;
-      v.play().then(()=>{ mb.textContent = '🔊'; }).catch(()=>{ v.muted = true; mb.textContent = '🔇'; v.play().catch(()=>{}); });
-      mb.addEventListener('click', ()=>{ v.muted = !v.muted; mb.textContent = v.muted ? '🔇' : '🔊'; if(!v.muted){ v.play().catch(()=>{}); } });
-      // 영상 누르면 멈춤/재생 토글
-      v.style.cursor = 'pointer';
-      v.addEventListener('click', ()=>{ if(v.paused){ v.play().catch(()=>{}); } else { v.pause(); } });
-    } else {
-      body.innerHTML = '<iframe src="'+VIDEO_URL+'" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-    }
-  }
-  // 영상 제외 버전: 팝업 완전 숨김
-  if (!VIDEO_URL) vidPop.style.display = 'none';
-  document.getElementById('vidClose').addEventListener('click', ()=> vidPop.classList.add('hide'));
-
-  // 영상 팝업 드래그 이동 (상단 바 잡고)
-  (function makeDraggable(pop, handle){
-    let on=false, sx=0, sy=0, ox=0, oy=0;
-    function start(e){
-      const p = e.touches ? e.touches[0] : e;
-      const r = pop.getBoundingClientRect();
-      ox = r.left; oy = r.top; sx = p.clientX; sy = p.clientY;
-      pop.style.right='auto'; pop.style.bottom='auto'; pop.style.left=ox+'px'; pop.style.top=oy+'px';
-      on = true; e.preventDefault();
-    }
-    function move(e){
-      if(!on) return;
-      const p = e.touches ? e.touches[0] : e;
-      let nx = ox + (p.clientX - sx), ny = oy + (p.clientY - sy);
-      // 화면 밖으로 안 나가게 살짝 제한
-      nx = Math.max(4, Math.min(nx, window.innerWidth - pop.offsetWidth - 4));
-      ny = Math.max(4, Math.min(ny, window.innerHeight - pop.offsetHeight - 4));
-      pop.style.left = nx+'px'; pop.style.top = ny+'px';
-      if(e.cancelable) e.preventDefault();
-    }
-    function end(){ on=false; }
-    handle.addEventListener('mousedown', start);
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', end);
-    handle.addEventListener('touchstart', start, {passive:false});
-    window.addEventListener('touchmove', move, {passive:false});
-    window.addEventListener('touchend', end);
-  })(vidPop, document.getElementById('vidHead'));
+  // 영상 팝업 제거됨 (2026-06-10) — 영상 확정 시 git 히스토리에서 복원
 </script>
 </body>
 </html>
