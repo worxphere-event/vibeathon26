@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>JOBKOREA VIBEATHON 2026 · 심사 채점표</title>
+<style>
+  :root{
+    --bg:#f2f4f6; --card:#fff; --line:#e5e8eb;
+    --text:#191f28; --sub:#8b95a1;
+    --blue:#3182f6; --blue-soft:#e8f3ff;
+    --radius:20px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.5;
+    -webkit-font-smoothing:antialiased;padding:36px 16px 80px;
+  }
+  .wrap{max-width:680px;margin:0 auto}
+  .head{text-align:center;margin-bottom:22px}
+  .badge{display:inline-block;background:var(--blue-soft);color:var(--blue);
+    font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;
+    letter-spacing:.5px;margin-bottom:14px;}
+  .head h1{font-size:25px;font-weight:800;letter-spacing:-.5px}
+  .head p{color:var(--sub);font-size:14px;margin-top:8px}
+
+  .meta{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .meta .field{flex:1;min-width:200px;background:var(--card);border-radius:14px;
+    padding:14px 16px;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+  .meta .field label{display:block;font-size:12px;color:var(--sub);font-weight:700;margin-bottom:6px}
+  .meta .field select{width:100%;border:none;outline:none;background:transparent;
+    font-size:16px;font-weight:700;color:var(--text);font-family:inherit;cursor:pointer;}
+
+  .cat{background:var(--card);border-radius:var(--radius);
+    box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:16px;overflow:hidden;}
+  .cat-head{display:flex;align-items:center;gap:12px;padding:16px 18px;
+    border-bottom:1px solid var(--line);background:#fafbfc;}
+  .cat-head .rank{flex:0 0 30px;height:30px;background:var(--blue-soft);color:var(--blue);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+  .cat-head .title{flex:1;font-size:17px;font-weight:800}
+  .cat-head .pt{background:var(--text);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px}
+  .cat-head .stsum{font-size:14px;font-weight:800;color:var(--blue);min-width:54px;text-align:right}
+
+  .item{padding:16px 18px;border-bottom:1px solid var(--line)}
+  .item:last-child{border-bottom:none}
+  .item .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:14px}
+  .item .d{font-size:14.5px;font-weight:600}
+  .item .d .m{color:var(--sub);font-size:12px;font-weight:700;margin-left:4px;white-space:nowrap}
+  .item .scv{font-size:20px;font-weight:800;color:var(--blue);white-space:nowrap}
+  .item .scv small{font-size:13px;color:var(--sub);font-weight:700}
+
+  /* 선형 점수 선택 (0~5 클릭) */
+  .scale{position:relative;padding:0 11px 24px}
+  .scale .track{position:absolute;left:11px;right:11px;top:11px;height:4px;
+    background:var(--line);border-radius:2px;}
+  .scale .fill{position:absolute;left:11px;top:11px;height:4px;width:0;
+    background:var(--blue);border-radius:2px;transition:width .12s;}
+  .dots{position:relative;display:flex;justify-content:space-between}
+  .dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);
+    background:#fff;cursor:pointer;padding:0;position:relative;transition:all .12s;}
+  .dot:hover{border-color:#aab4c0}
+  .dot.on{border-color:var(--blue);background:var(--blue)}
+  .dot .lab{position:absolute;top:25px;left:50%;transform:translateX(-50%);
+    font-size:12px;font-weight:700;color:var(--sub);}
+  .dot.on .lab{color:var(--blue)}
+
+  /* O/X 토글 */
+  .toggle{display:flex;gap:8px}
+  .tg{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:12px;
+    padding:11px;font-family:inherit;font-size:14px;font-weight:700;color:var(--sub);
+    cursor:pointer;transition:all .12s;}
+  .tg:hover{border-color:#c4ccd6}
+  .tg.active{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
+
+  .total{background:var(--text);color:#fff;border-radius:var(--radius);
+    padding:22px 24px;margin-top:18px;display:flex;align-items:center;justify-content:space-between;}
+  .total .label{font-size:17px;font-weight:800}
+  .total .val{font-size:32px;font-weight:800}
+  .total .val span{font-size:18px;color:#a0a8b3;font-weight:700}
+
+  .submit{display:block;width:100%;margin-top:16px;border:none;cursor:pointer;
+    background:var(--blue);color:#fff;font-family:inherit;font-size:17px;font-weight:800;
+    padding:18px;border-radius:16px;transition:opacity .15s;}
+  .submit:hover{opacity:.9}
+  .submit:disabled{background:#c4ccd6;cursor:not-allowed}
+  .note{text-align:center;color:var(--sub);font-size:12.5px;margin-top:12px;line-height:1.6}
+  .foot{text-align:center;color:var(--sub);font-size:13px;margin-top:22px}
+
+  @media (max-width:520px){
+    body{padding:24px 12px 70px}
+    .head h1{font-size:22px}
+    .cat-head,.item{padding-left:14px;padding-right:14px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <span class="badge">JOBKOREA VIBEATHON 2026</span>
+      <h1>심사 채점표</h1>
+      <p>각 항목 0~5점 중 하나를 클릭해 주세요 · 총 100점</p>
+    </div>
+
+    <div class="meta">
+      <div class="field">
+        <label>심사위원</label>
+        <select id="judge">
+          <option value="" selected disabled>본인 선택</option>
+          <option>김유진</option>
+          <option>김성수</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>팀명</label>
+        <select id="team">
+          <option value="" selected disabled>팀 선택</option>
+          <optgroup label="1인팀">
+            <option>팀장님께바칩니다 (유승빈)</option>
+            <option>굿바이브 (심호준)</option>
+            <option>터틀넥 (정희명)</option>
+            <option>A~I등하고싶다 (김승빈)</option>
+          </optgroup>
+          <optgroup label="2인팀">
+            <option>제컴에선되는데요 (이승용)</option>
+            <option>기상천외부 (정지훈)</option>
+            <option>강자매 (강보현)</option>
+            <option>느좋코딩왕 (김태성)</option>
+          </optgroup>
+          <optgroup label="3인팀 (사전구성)">
+            <option>팀장님께빨대쪽쪽 (김주원)</option>
+            <option>AI 야호~ (정윤정)</option>
+            <option>호재사냥꾼 (허재원)</option>
+            <option>결재반려단 (이윤주)</option>
+          </optgroup>
+          <optgroup label="3인팀 (랜덤매칭)">
+            <option>내일바로출근 (우시현)</option>
+            <option>리턴 (조원준)</option>
+            <option>AI 역모단 (박채원)</option>
+            <option>리그오브레거시 (이준승)</option>
+            <option>부락지(富樂智) (김기홍)</option>
+            <option>Ai님출근하셨죠 (윤예원)</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+
+    <!-- 1. 주제 적합성 30 -->
+    <div class="cat">
+      <div class="cat-head"><div class="rank">1</div><div class="title">주제 적합성</div><div class="pt">30점</div><div class="stsum">0</div></div>
+      <div class="item">
+        <div class="top"><div class="d">팀원이 아닌 '팀장'의 시점에서 기획되었는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">팀장이 보면 한숨이 나올 만한 서비스인가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">추가 주제(돌발 상황)의 내용이 반영되었는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">어떤 순간에 쓰는지 구체적으로 그려지는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">기획 의도가 명확한가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">팀장이 실제로 싫어할·말릴 포인트가 뾰족한가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+    </div>
+
+    <!-- 2. 기획 신선함 25 -->
+    <div class="cat">
+      <div class="cat-head"><div class="rank">2</div><div class="title">기획 신선함</div><div class="pt">25점</div><div class="stsum">0</div></div>
+      <div class="item">
+        <div class="top"><div class="d">기존에 없던 새로운 발상의 서비스인가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">보는 순간 즐거움을 주는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">남한테 보여주고 싶을 만큼 의외인가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">심사위원도 빵 터질 한 방이 있는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">다른 팀과 겹치지 않는 차별성이 있는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+    </div>
+
+    <!-- 3. 완성도·작동 20 -->
+    <div class="cat">
+      <div class="cat-head"><div class="rank">3</div><div class="title">완성도 · 작동</div><div class="pt">20점</div><div class="stsum">0</div></div>
+      <div class="item">
+        <div class="top"><div class="d">서비스가 실제로 배포되었는가?<span class="m">5점</span></div></div>
+        <div class="toggle"><button type="button" class="tg" data-val="5">O · 배포 완료</button><button type="button" class="tg" data-val="0">X · 미배포</button></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">서버·기능이 정상적으로 동작하는가?<span class="m">5점</span></div></div>
+        <div class="toggle"><button type="button" class="tg" data-val="5">O · 정상 동작</button><button type="button" class="tg" data-val="0">X · 동작 안 함</button></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">디자인이 시각적으로 완성도 있는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">한숨 포인트가 끝까지 일관되게 살아있는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+    </div>
+
+    <!-- 4. 설득·발표력 15 -->
+    <div class="cat">
+      <div class="cat-head"><div class="rank">4</div><div class="title">설득 · 발표력</div><div class="pt">15점</div><div class="stsum">0</div></div>
+      <div class="item">
+        <div class="top"><div class="d">핵심 한 방이 청중에게 꽂혔는가? (황당한데 묘하게 납득)<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">왜 만들었는지가 설득되는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">발표 태도가 안정적이고 전달력이 좋은가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+    </div>
+
+    <!-- 5. 대중 공감 10 -->
+    <div class="cat">
+      <div class="cat-head"><div class="rank">5</div><div class="title">대중 공감</div><div class="pt">10점</div><div class="stsum">0</div></div>
+      <div class="item">
+        <div class="top"><div class="d">다수가 공감할 만한 내용인가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">보는 사람이 빵 터지고 만족하는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+    </div>
+
+    <div class="total">
+      <span class="label">총점</span>
+      <span class="val" id="total">0<span> / 100</span></span>
+    </div>
+
+    <button class="submit" id="submit">구글폼으로 제출하기</button>
+    <p class="note" id="note">※ 심사위원·팀·모든 항목을 선택하면 제출 버튼이 활성화돼요</p>
+
+    <p class="foot">JOBKOREA VIBEATHON 2026 · 심사위원용 채점표</p>
+  </div>
+
+<script>
+  /* ===== 구글폼 연동 설정 (entry ID 받으면 여기만 채우면 끝!) =====
+     GFORM.items = 20개 세부 항목 순서대로 entry.XXXX 배열
+       순서 = 주제적합성6 → 기획신선함5 → 완성도·작동4 → 설득·발표3 → 대중공감2
+     ============================================================= */
+  var GFORM = { formId:"", judge:"", team:"", total:"", items:[] };
+
+  var judgeSel = document.getElementById('judge');
+  var teamSel  = document.getElementById('team');
+  var totalEl  = document.getElementById('total');
+  var submitBtn= document.getElementById('submit');
+  var noteEl   = document.getElementById('note');
+
+  // 선형 점수 선택기 생성 (0~5 점 클릭)
+  function paint(scale, v){
+    scale.querySelectorAll('.dot').forEach(function(d){
+      d.classList.toggle('on', parseInt(d.dataset.v,10) <= v);
+    });
+    scale.querySelector('.fill').style.width = 'calc((100% - 22px) * ' + (v/5) + ')';
+    scale.closest('.item').querySelector('.scv').firstChild.nodeValue = v;
+  }
+  document.querySelectorAll('.scale').forEach(function(scale){
+    var dots = scale.querySelector('.dots');
+    for(var i=0;i<=5;i++){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'dot'; b.dataset.v = i;
+      b.innerHTML = '<span class="lab">' + i + '</span>';
+      dots.appendChild(b);
+    }
+    scale.querySelectorAll('.dot').forEach(function(dot){
+      dot.addEventListener('click', function(){
+        var v = parseInt(dot.dataset.v,10);
+        scale.dataset.value = v;
+        paint(scale, v);
+        recalc();
+      });
+    });
+  });
+
+  // O/X 토글
+  document.querySelectorAll('.toggle').forEach(function(grp){
+    grp.querySelectorAll('.tg').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        grp.querySelectorAll('.tg').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        recalc();
+      });
+    });
+  });
+
+  judgeSel.addEventListener('change', recalc);
+  teamSel.addEventListener('change', recalc);
+
+  function itemValues(){
+    var vals = [];
+    document.querySelectorAll('.item').forEach(function(it){
+      var scale = it.querySelector('.scale');
+      if(scale){ vals.push(scale.dataset.value===undefined ? null : parseInt(scale.dataset.value,10)); return; }
+      var active = it.querySelector('.tg.active');
+      vals.push(active ? parseInt(active.dataset.val,10) : null);
+    });
+    return vals;
+  }
+
+  function recalc(){
+    var grand = 0, allDone = true;
+    document.querySelectorAll('.cat').forEach(function(cat){
+      var sub = 0;
+      cat.querySelectorAll('.item').forEach(function(it){
+        var scale = it.querySelector('.scale');
+        if(scale){
+          if(scale.dataset.value===undefined){ allDone = false; }
+          else { sub += parseInt(scale.dataset.value,10); }
+          return;
+        }
+        var active = it.querySelector('.tg.active');
+        if(active){ sub += parseInt(active.dataset.val,10); } else { allDone = false; }
+      });
+      cat.querySelector('.stsum').textContent = sub;
+      grand += sub;
+    });
+    totalEl.firstChild.nodeValue = grand;
+    var ready = judgeSel.value && teamSel.value && allDone;
+    submitBtn.disabled = !ready;
+    noteEl.textContent = ready ? "✅ 제출 준비 완료! (총 " + grand + "점)" : "※ 심사위원·팀·모든 항목을 선택하면 제출 버튼이 활성화돼요";
+  }
+  recalc();
+
+  submitBtn.addEventListener('click', function(){
+    if(!GFORM.formId){
+      alert("아직 구글폼이 연동되지 않았어요!\n한나 선배님이 구글폼 entry ID를 넣어주시면 바로 제출됩니다 :)");
+      return;
+    }
+    var base = "https://docs.google.com/forms/d/e/" + GFORM.formId + "/viewform?usp=pp_url";
+    var p = [];
+    p.push(GFORM.judge + "=" + encodeURIComponent(judgeSel.value));
+    p.push(GFORM.team  + "=" + encodeURIComponent(teamSel.value));
+    var vals = itemValues(), total = 0;
+    vals.forEach(function(v, i){
+      var vv = (v==null?0:v); total += vv;
+      if(GFORM.items[i]) p.push(GFORM.items[i] + "=" + encodeURIComponent(vv));
+    });
+    if(GFORM.total) p.push(GFORM.total + "=" + encodeURIComponent(total));
+    window.open(base + "&" + p.join("&"), "_blank");
+  });
+</script>
+</body>
+</html>
