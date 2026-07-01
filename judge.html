@@ -9,21 +9,91 @@
   :root{
     --bg:#f2f4f6; --card:#fff; --line:#e5e8eb;
     --text:#191f28; --sub:#8b95a1;
-    --blue:#3182f6; --blue-soft:#e8f3ff; --radius:20px;
+    --blue:#3182f6; --blue-soft:#e8f3ff;
+    --radius:20px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
-    background:var(--bg);color:var(--text);line-height:1.5;-webkit-font-smoothing:antialiased;padding:32px 16px 80px;}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.5;
+    -webkit-font-smoothing:antialiased;padding:36px 16px 80px;
+  }
   .wrap{max-width:640px;margin:0 auto}
-  .head{text-align:center;margin-bottom:16px}
-  .badge{display:inline-block;background:var(--blue-soft);color:var(--blue);font-size:13px;font-weight:700;
-    padding:6px 14px;border-radius:999px;letter-spacing:.5px;margin-bottom:12px;}
+  .head{text-align:center;margin-bottom:22px}
+  .badge{display:inline-block;background:var(--blue-soft);color:var(--blue);
+    font-size:13px;font-weight:700;padding:6px 14px;border-radius:999px;
+    letter-spacing:.5px;margin-bottom:14px;}
   .head h1{font-size:25px;font-weight:800;letter-spacing:-.5px}
   .head p{color:var(--sub);font-size:14px;margin-top:8px}
-  .head .rankbtn{display:inline-block;margin-top:12px;background:#191f28;color:#fff;text-decoration:none;
-    font-size:14px;font-weight:700;padding:10px 18px;border-radius:999px;}
 
-  /* 타이머 */
+  .meta{display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .meta .field{flex:1;min-width:200px;background:var(--card);border-radius:14px;
+    padding:14px 16px;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+  .meta .field label{display:block;font-size:12px;color:var(--sub);font-weight:700;margin-bottom:6px}
+  .meta .field select{width:100%;border:none;outline:none;background:transparent;
+    font-size:16px;font-weight:700;color:var(--text);font-family:inherit;cursor:pointer;}
+
+  .cat{background:var(--card);border-radius:var(--radius);
+    box-shadow:0 2px 12px rgba(0,0,0,.04);margin-bottom:14px;overflow:hidden;}
+  .cat-head{display:flex;align-items:center;gap:12px;padding:18px 20px 12px;}
+  .cat-head .rank{flex:0 0 30px;height:30px;background:var(--blue-soft);color:var(--blue);
+    border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;}
+  .cat-head .title{flex:1;font-size:18px;font-weight:800}
+  .cat-head .pt{background:var(--text);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:8px}
+  .cat-head .scv{font-size:22px;font-weight:800;color:var(--blue);white-space:nowrap;min-width:64px;text-align:right}
+  .cat-head .scv small{font-size:14px;color:var(--sub);font-weight:700}
+
+  .cat .desc{padding:0 20px 4px;color:var(--sub);font-size:14px;font-weight:500;line-height:1.55}
+
+  .slider{padding:14px 20px 22px}
+  .rg{position:relative;height:26px}
+  .rg input[type=range]{
+    -webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;
+    background:var(--line);outline:none;cursor:pointer;margin:0;position:relative;z-index:2;
+  }
+  .rg input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;
+    background:var(--blue);border:3px solid #fff;box-shadow:0 2px 8px rgba(49,130,246,.4);cursor:pointer;
+  }
+  .rg input[type=range]::-moz-range-thumb{
+    width:26px;height:26px;border-radius:50%;background:var(--blue);
+    border:3px solid #fff;box-shadow:0 2px 8px rgba(49,130,246,.4);cursor:pointer;
+  }
+  .rg .fill{position:absolute;left:0;top:10px;height:6px;width:0;background:var(--blue);
+    border-radius:3px;z-index:1;pointer-events:none;transition:width .08s;}
+  .rg.untouched input[type=range]::-webkit-slider-thumb{background:#c4ccd6;box-shadow:none}
+  .rg.untouched input[type=range]::-moz-range-thumb{background:#c4ccd6;box-shadow:none}
+  .scalerow{display:flex;justify-content:space-between;margin-top:10px;color:var(--sub);
+    font-size:12px;font-weight:700}
+
+  .total{background:var(--text);color:#fff;border-radius:var(--radius);
+    padding:22px 24px;margin-top:18px;display:flex;align-items:center;justify-content:space-between;}
+  .total .label{font-size:17px;font-weight:800}
+  .total .val{font-size:32px;font-weight:800}
+  .total .val span{font-size:18px;color:#a0a8b3;font-weight:700}
+
+  .submit{display:block;width:100%;margin-top:16px;border:none;cursor:pointer;
+    background:var(--blue);color:#fff;font-family:inherit;font-size:17px;font-weight:800;
+    padding:18px;border-radius:16px;transition:opacity .15s;}
+  .submit:hover{opacity:.9}
+  .submit:disabled{background:#c4ccd6;cursor:not-allowed}
+  .note{text-align:center;color:var(--sub);font-size:12.5px;margin-top:12px;line-height:1.6}
+  .foot{text-align:center;color:var(--sub);font-size:13px;margin-top:22px}
+
+  /* 제출 완료 오버레이 */
+  .done{position:fixed;inset:0;background:rgba(25,31,40,.55);display:none;
+    align-items:center;justify-content:center;padding:20px;z-index:50;}
+  .done.show{display:flex}
+  .done .box{background:#fff;border-radius:24px;padding:36px 28px;text-align:center;
+    max-width:340px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,.2);}
+  .done .ic{width:64px;height:64px;border-radius:50%;background:var(--blue-soft);
+    display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px}
+  .done h2{font-size:21px;font-weight:800;margin-bottom:8px}
+  .done p{color:var(--sub);font-size:14px;line-height:1.6}
+  .done .team{color:var(--blue);font-weight:800}
+  .done button{margin-top:22px;width:100%;border:none;background:var(--blue);color:#fff;
+    font-family:inherit;font-size:16px;font-weight:800;padding:15px;border-radius:14px;cursor:pointer}
+
   .timer{position:sticky;top:8px;z-index:20;background:var(--card);border:1px solid var(--line);
     border-radius:14px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;
     justify-content:space-between;box-shadow:0 4px 16px rgba(0,0,0,.08);}
@@ -36,42 +106,13 @@
   .tmr-btns button{border:none;font-family:inherit;font-weight:700;font-size:14px;padding:9px 16px;border-radius:10px;cursor:pointer}
   .tmr-start{background:var(--blue);color:#fff} .tmr-reset{background:var(--line);color:var(--text)}
 
-  .meta{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-  .meta .field{flex:1;min-width:200px;background:var(--card);border-radius:14px;padding:14px 16px;box-shadow:0 2px 12px rgba(0,0,0,.04);}
-  .meta .field label{display:block;font-size:12px;color:var(--sub);font-weight:700;margin-bottom:6px}
-  .meta .field select{width:100%;border:none;outline:none;background:transparent;font-size:16px;font-weight:700;color:var(--text);font-family:inherit;cursor:pointer;}
-
-  .cat{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 12px rgba(0,0,0,.04);
-    margin-bottom:14px;padding:18px 20px;display:flex;align-items:center;gap:16px;}
-  .cat .info{flex:1}
-  .cat .q{font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px;margin-bottom:6px}
-  .cat .q .rk{flex:0 0 26px;height:26px;background:var(--blue-soft);color:var(--blue);border-radius:50%;
-    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
-  .cat .q .pt{background:var(--text);color:#fff;font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px}
-  .cat .desc{font-size:13.5px;color:var(--sub);line-height:1.45;padding-left:34px}
-  .cat .scorewrap{flex:0 0 96px;text-align:center}
-  .cat .score{width:96px;height:56px;border:2px solid var(--line);border-radius:14px;text-align:center;
-    font-size:26px;font-weight:800;color:var(--blue);font-family:inherit;outline:none;transition:border .12s;}
-  .cat .score:focus{border-color:var(--blue)}
-  .cat .score.err{border-color:#f04452;color:#f04452}
-  .cat .max{display:block;font-size:11px;color:var(--sub);font-weight:700;margin-top:4px}
-
-  .total{background:var(--text);color:#fff;border-radius:var(--radius);padding:22px 24px;margin-top:18px;
-    display:flex;align-items:center;justify-content:space-between;}
-  .total .label{font-size:17px;font-weight:800}
-  .total .val{font-size:32px;font-weight:800}
-  .total .val span{font-size:18px;color:#a0a8b3;font-weight:700}
-
-  .submit{display:block;width:100%;margin-top:16px;border:none;cursor:pointer;background:var(--blue);color:#fff;
-    font-family:inherit;font-size:17px;font-weight:800;padding:18px;border-radius:16px;transition:opacity .15s;}
-  .submit:hover{opacity:.9} .submit:disabled{background:#c4ccd6;cursor:not-allowed}
-  .note{text-align:center;color:var(--sub);font-size:12.5px;margin-top:12px;line-height:1.6}
-  .foot{text-align:center;color:var(--sub);font-size:13px;margin-top:22px}
-
   @media (max-width:520px){
-    body{padding:24px 12px 70px} .head h1{font-size:22px}
-    .cat{padding:16px 14px;gap:10px} .cat .scorewrap{flex-basis:78px} .cat .score{width:78px;height:50px;font-size:22px}
-    .cat .desc{padding-left:0;margin-top:4px} .tmr-display{font-size:26px}
+    body{padding:24px 12px 70px}
+    .head h1{font-size:22px}
+    .cat-head{padding:16px 16px 10px}
+    .cat .desc{padding:0 16px 4px}
+    .slider{padding:12px 16px 20px}
+    .tmr-display{font-size:26px}
   }
 </style>
 </head>
@@ -80,8 +121,8 @@
     <div class="head">
       <span class="badge">JOBKOREA VIBEATHON 2026</span>
       <h1>심사 채점표</h1>
-      <p>각 항목 점수를 직접 입력해 주세요 · 총 100점</p>
-      <a class="rankbtn" href="rank.html" target="_blank">🏆 실시간 순위 보기</a>
+      <p>주제 · 「팀장님 한숨 나올 서비스 만들기」 · 총 100점</p>
+      <a class="rankbtn" href="rank.html" target="_blank" style="display:inline-block;margin-top:12px;background:#191f28;color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:10px 18px;border-radius:999px;">🏆 실시간 순위 보기</a>
     </div>
 
     <div class="timer">
@@ -109,64 +150,79 @@
         <select id="team">
           <option value="" selected disabled>팀 선택</option>
           <optgroup label="1인팀">
-            <option>팀장님께바칩니다 (유승빈)</option><option>굿바이브 (심호준)</option>
-            <option>터틀넥 (정희명)</option><option>A~I등하고싶다 (김승빈)</option>
+            <option>팀장님께바칩니다 (유승빈)</option>
+            <option>굿바이브 (심호준)</option>
+            <option>터틀넥 (정희명)</option>
+            <option>A~I등하고싶다 (김승빈)</option>
           </optgroup>
           <optgroup label="2인팀">
-            <option>제컴에선되는데요 (이승용)</option><option>기상천외부 (정지훈)</option>
-            <option>강자매 (강보현)</option><option>느좋코딩왕 (김태성)</option>
+            <option>제컴에선되는데요 (이승용)</option>
+            <option>기상천외부 (정지훈)</option>
+            <option>강자매 (강보현)</option>
+            <option>느좋코딩왕 (김태성)</option>
           </optgroup>
           <optgroup label="3인팀 (사전구성)">
-            <option>팀장님께빨대쪽쪽 (김주원)</option><option>AI 야호~ (정윤정)</option>
-            <option>호재사냥꾼 (허재원)</option><option>결재반려단 (이윤주)</option>
+            <option>팀장님께빨대쪽쪽 (김주원)</option>
+            <option>AI 야호~ (정윤정)</option>
+            <option>호재사냥꾼 (허재원)</option>
+            <option>결재반려단 (이윤주)</option>
           </optgroup>
           <optgroup label="3인팀 (랜덤매칭)">
-            <option>내일바로출근 (우시현)</option><option>리턴 (조원준)</option>
-            <option>AI 역모단 (박채원)</option><option>리그오브레거시 (이준승)</option>
-            <option>부락지(富樂智) (김기홍)</option><option>Ai님출근하셨죠 (윤예원)</option>
+            <option>내일바로출근 (우시현)</option>
+            <option>리턴 (조원준)</option>
+            <option>AI 역모단 (박채원)</option>
+            <option>리그오브레거시 (이준승)</option>
+            <option>부락지(富樂智) (김기홍)</option>
+            <option>Ai님출근하셨죠 (윤예원)</option>
           </optgroup>
         </select>
       </div>
     </div>
 
-    <div class="cat">
-      <div class="info">
-        <div class="q"><span class="rk">1</span>기획 신선함<span class="pt">30점</span></div>
-        <div class="desc">뻔하지 않고 '이건 처음 본다' 싶은 아이디어인가?</div>
+    <!-- 슬라이더 5항목 : data-max 로 배점 지정 -->
+    <div class="cat" data-key="creativity" data-max="30">
+      <div class="cat-head"><div class="rank">1</div><div class="title">기획 신선함</div><div class="pt">30점</div><div class="scv">–<small> / 30</small></div></div>
+      <div class="desc">뻔하지 않고 '이건 처음 본다' 싶은 아이디어인가?</div>
+      <div class="slider">
+        <div class="rg untouched"><div class="fill"></div><input type="range" min="0" max="30" step="1" value="0"></div>
+        <div class="scalerow"><span>0</span><span>30</span></div>
       </div>
-      <div class="scorewrap"><input type="number" class="score" data-cat="기획 신선함" data-max="30" min="0" max="30" placeholder="–"><span class="max">/ 30</span></div>
     </div>
 
-    <div class="cat">
-      <div class="info">
-        <div class="q"><span class="rk">2</span>주제 적합성<span class="pt">25점</span></div>
-        <div class="desc">헛웃음·한숨 나올 지점을 정확히 찔렀는가?</div>
+    <div class="cat" data-key="fit" data-max="25">
+      <div class="cat-head"><div class="rank">2</div><div class="title">주제 적합성</div><div class="pt">25점</div><div class="scv">–<small> / 25</small></div></div>
+      <div class="desc">헛웃음 · 한숨 나올 지점을 정확히 찔렀는가?</div>
+      <div class="slider">
+        <div class="rg untouched"><div class="fill"></div><input type="range" min="0" max="25" step="1" value="0"></div>
+        <div class="scalerow"><span>0</span><span>25</span></div>
       </div>
-      <div class="scorewrap"><input type="number" class="score" data-cat="주제 적합성" data-max="25" min="0" max="25" placeholder="–"><span class="max">/ 25</span></div>
     </div>
 
-    <div class="cat">
-      <div class="info">
-        <div class="q"><span class="rk">3</span>완성도<span class="pt">20점</span></div>
-        <div class="desc">아이디어가 짧게라도 실제 작동하는 데모로 구현되었는가?</div>
+    <div class="cat" data-key="completion" data-max="20">
+      <div class="cat-head"><div class="rank">3</div><div class="title">완성도</div><div class="pt">20점</div><div class="scv">–<small> / 20</small></div></div>
+      <div class="desc">아이디어가 짧게라도 실제 작동하는 데모로 구현되었는가?</div>
+      <div class="slider">
+        <div class="rg untouched"><div class="fill"></div><input type="range" min="0" max="20" step="1" value="0"></div>
+        <div class="scalerow"><span>0</span><span>20</span></div>
       </div>
-      <div class="scorewrap"><input type="number" class="score" data-cat="완성도" data-max="20" min="0" max="20" placeholder="–"><span class="max">/ 20</span></div>
     </div>
 
-    <div class="cat">
-      <div class="info">
-        <div class="q"><span class="rk">4</span>설득 · 발표<span class="pt">15점</span></div>
-        <div class="desc">"왜 팀장이 한숨 쉬는지" 웃음 포인트가 발표에서 확실히 살아나는가?</div>
+    <div class="cat" data-key="pitch" data-max="15">
+      <div class="cat-head"><div class="rank">4</div><div class="title">설득 / 발표</div><div class="pt">15점</div><div class="scv">–<small> / 15</small></div></div>
+      <div class="desc">"왜 팀장이 한숨 쉬는지" 웃음 포인트가 발표에서 확실히 살아나는가?</div>
+      <div class="slider">
+        <div class="rg untouched"><div class="fill"></div><input type="range" min="0" max="15" step="1" value="0"></div>
+        <div class="scalerow"><span>0</span><span>15</span></div>
       </div>
-      <div class="scorewrap"><input type="number" class="score" data-cat="설득 · 발표" data-max="15" min="0" max="15" placeholder="–"><span class="max">/ 15</span></div>
     </div>
 
-    <div class="cat">
-      <div class="info">
-        <div class="q"><span class="rk">5</span>대중 공감<span class="pt">10점</span></div>
-        <div class="desc">직장인 다수가 빵 터질 만큼 공감되는가?</div>
+    <div class="cat" data-key="empathy" data-max="10">
+      <div class="cat-head"><div class="rank">5</div><div class="title">대중 공감</div><div class="pt">10점</div><div class="scv">–<small> / 10</small></div></div>
+      <div class="desc">직장인 다수가 빵 터질 만큼 공감되는가?</div>
+      <div class="slider">
+        <div class="rg untouched"><div class="fill"></div><input type="range" min="0" max="10" step="1" value="0"></div>
+        <div class="scalerow"><span>0</span><span>10</span></div>
       </div>
-      <div class="scorewrap"><input type="number" class="score" data-cat="대중 공감" data-max="10" min="0" max="10" placeholder="–"><span class="max">/ 10</span></div>
     </div>
 
     <div class="total">
@@ -174,24 +230,43 @@
       <span class="val" id="total">0<span> / 100</span></span>
     </div>
 
-    <button class="submit" id="submit" disabled>제출하기</button>
-    <p class="note" id="note">※ 심사위원·팀·5개 항목을 모두 입력하면 제출 버튼이 활성화돼요</p>
+    <button class="submit" id="submit">제출하기</button>
+    <p class="note" id="note">※ 심사위원 · 팀 · 5개 항목을 모두 매기면 제출 버튼이 활성화돼요</p>
+
     <p class="foot">JOBKOREA VIBEATHON 2026 · 심사위원용 채점표</p>
   </div>
 
+  <!-- 제출 완료 오버레이 -->
+  <div class="done" id="doneOverlay">
+    <div class="box">
+      <div class="ic">✅</div>
+      <h2>제출 완료!</h2>
+      <p><span class="team" id="doneTeam"></span><br>총 <b id="doneScore"></b>점으로 제출됐어요.</p>
+      <button id="doneNext">다음 팀 채점하기</button>
+    </div>
+  </div>
+
+  <!-- 백그라운드 제출용 히든 iframe -->
+  <iframe name="gform_sink" style="display:none" title="sink"></iframe>
+
 <script>
-  /* ===== 구글폼 연동 ===== */
+  /* ============================================================
+     구글폼 백그라운드 제출 설정 (entry ID 받으면 여기만 채우면 끝!)
+     - action : 구글폼 "응답" URL. /viewform → /formResponse 로 바꾼 주소
+       예) https://docs.google.com/forms/d/e/1FAIpQLSxxxx/formResponse
+     - fields : 각 문항의 entry ID (미리보기 URL에서 entry.000000 추출)
+     ============================================================ */
   var GFORM = {
-    formId: "1FAIpQLSexcPCJtGAHSI0Evv6lc9jtXh6zM1TyMcI8f41NdDkZOrxSGA",
-    judge:  "entry.1925060773",
-    team:   "entry.383478249",
-    total:  "entry.957752211",
-    cats: {
-      "기획 신선함": "entry.1851579540",
-      "주제 적합성": "entry.1238200036",
-      "완성도":      "entry.878275965",
-      "설득 · 발표": "entry.2046100731",
-      "대중 공감":   "entry.1163608319"
+    action : "https://docs.google.com/forms/d/e/1FAIpQLSexcPCJtGAHSI0Evv6lc9jtXh6zM1TyMcI8f41NdDkZOrxSGA/formResponse",
+    fields : {
+      judge      : "entry.1925060773",   // 심사위원
+      team       : "entry.383478249",    // 팀명
+      creativity : "entry.1851579540",   // 기획 신선함(30)
+      fit        : "entry.1238200036",   // 주제 적합성(25)
+      completion : "entry.878275965",    // 완성도(20)
+      pitch      : "entry.2046100731",   // 설득/발표(15)
+      empathy    : "entry.1163608319",   // 대중 공감(10)
+      total      : "entry.957752211"     // 총점(100)
     }
   };
 
@@ -200,29 +275,135 @@
   var totalEl  = document.getElementById('total');
   var submitBtn= document.getElementById('submit');
   var noteEl   = document.getElementById('note');
-  var scores   = document.querySelectorAll('.score');
+
+  // 슬라이더 초기화
+  document.querySelectorAll('.cat').forEach(function(cat){
+    var rg    = cat.querySelector('.rg');
+    var input = cat.querySelector('input[type=range]');
+    var fill  = cat.querySelector('.fill');
+    var scv   = cat.querySelector('.scv');
+    var max   = parseInt(cat.dataset.max,10);
+
+    function render(){
+      var v = parseInt(input.value,10);
+      fill.style.width = (v/max*100) + '%';
+      if(rg.classList.contains('untouched')){
+        scv.firstChild.nodeValue = '–';
+      } else {
+        scv.firstChild.nodeValue = v;
+      }
+    }
+    input.addEventListener('input', function(){
+      rg.classList.remove('untouched');
+      render(); recalc();
+    });
+    render();
+  });
+
+  judgeSel.addEventListener('change', recalc);
+  teamSel.addEventListener('change', recalc);
 
   function recalc(){
     var grand = 0, allDone = true;
-    scores.forEach(function(inp){
-      var max = parseInt(inp.dataset.max,10);
-      var v = inp.value.trim();
-      if(v===''){ allDone = false; inp.classList.remove('err'); return; }
-      var n = parseInt(v,10);
-      if(isNaN(n) || n<0 || n>max){ inp.classList.add('err'); allDone = false; return; }
-      inp.classList.remove('err');
-      grand += n;
+    document.querySelectorAll('.cat').forEach(function(cat){
+      var rg = cat.querySelector('.rg');
+      var v  = parseInt(cat.querySelector('input[type=range]').value,10);
+      if(rg.classList.contains('untouched')){ allDone = false; }
+      else { grand += v; }
     });
     totalEl.firstChild.nodeValue = grand;
     var ready = judgeSel.value && teamSel.value && allDone;
     submitBtn.disabled = !ready;
-    noteEl.textContent = ready ? "✅ 제출 준비 완료! (총 " + grand + "점)"
-      : "※ 심사위원·팀·5개 항목을 모두 입력하면 제출 버튼이 활성화돼요";
+    noteEl.textContent = ready
+      ? "✅ 제출 준비 완료! (총 " + grand + "점)"
+      : "※ 심사위원 · 팀 · 5개 항목을 모두 매기면 제출 버튼이 활성화돼요";
   }
-  scores.forEach(function(inp){ inp.addEventListener('input', recalc); });
-  judgeSel.addEventListener('change', recalc);
-  teamSel.addEventListener('change', recalc);
   recalc();
+
+  function scoreOf(key){
+    var cat = document.querySelector('.cat[data-key="'+key+'"]');
+    return parseInt(cat.querySelector('input[type=range]').value,10);
+  }
+
+  submitBtn.addEventListener('click', function(){
+    if(!GFORM.action){
+      alert("아직 구글폼이 연동되지 않았어요!\n한나 선배님이 formResponse URL + entry ID를 넣어주시면 바로 백그라운드로 제출됩니다 :)");
+      return;
+    }
+    var scores = {
+      creativity: scoreOf('creativity'),
+      fit       : scoreOf('fit'),
+      completion: scoreOf('completion'),
+      pitch     : scoreOf('pitch'),
+      empathy   : scoreOf('empathy')
+    };
+    var total = scores.creativity + scores.fit + scores.completion + scores.pitch + scores.empathy;
+
+    // 히든 form 만들어서 iframe(gform_sink)으로 백그라운드 POST → 화면 전환 없음
+    var f = document.createElement('form');
+    f.action = GFORM.action;
+    f.method = 'POST';
+    f.target = 'gform_sink';
+    f.style.display = 'none';
+
+    function add(entry, val){
+      if(!entry) return;
+      var i = document.createElement('input');
+      i.type = 'hidden'; i.name = entry; i.value = val;
+      f.appendChild(i);
+    }
+    add(GFORM.fields.judge,      judgeSel.value);
+    add(GFORM.fields.team,       teamSel.value);
+    add(GFORM.fields.creativity, scores.creativity);
+    add(GFORM.fields.fit,        scores.fit);
+    add(GFORM.fields.completion, scores.completion);
+    add(GFORM.fields.pitch,      scores.pitch);
+    add(GFORM.fields.empathy,    scores.empathy);
+    add(GFORM.fields.total,      total);
+
+    document.body.appendChild(f);
+    f.submit();
+    setTimeout(function(){ document.body.removeChild(f); }, 500);
+
+    // 완료 오버레이
+    document.getElementById('doneTeam').textContent = teamSel.value;
+    document.getElementById('doneScore').textContent = total;
+    document.getElementById('doneOverlay').classList.add('show');
+  });
+
+  // 다음 팀 채점: 팀 선택 + 점수만 초기화 (심사위원은 유지)
+  document.getElementById('doneNext').addEventListener('click', function(){
+    document.getElementById('doneOverlay').classList.remove('show');
+    teamSel.value = "";
+    document.querySelectorAll('.cat').forEach(function(cat){
+      var input = cat.querySelector('input[type=range]');
+      input.value = 0;
+      cat.querySelector('.rg').classList.add('untouched');
+      cat.querySelector('.fill').style.width = '0%';
+      cat.querySelector('.scv').firstChild.nodeValue = '–';
+    });
+    recalc();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // ===== 제출한 팀 회색 표시 (심사위원별, 새로고침 유지) =====
+  function getJudged(){ try{ return JSON.parse(localStorage.getItem("vb_judged")||"{}"); }catch(e){ return {}; } }
+  function refreshMarks(){
+    var done = getJudged()[judgeSel.value] || [];
+    Array.prototype.forEach.call(teamSel.options, function(o){
+      o.style.color = (o.value && done.indexOf(o.value)>=0) ? "#c4ccd6" : "";
+    });
+  }
+  judgeSel.addEventListener('change', refreshMarks);
+  submitBtn.addEventListener('click', function(){
+    if(!judgeSel.value || !teamSel.value) return;
+    var d = getJudged();
+    d[judgeSel.value] = d[judgeSel.value] || [];
+    if(d[judgeSel.value].indexOf(teamSel.value) < 0) d[judgeSel.value].push(teamSel.value);
+    localStorage.setItem("vb_judged", JSON.stringify(d));
+    setTimeout(refreshMarks, 50);
+  });
+  refreshMarks();
 
   // ===== 발표 타이머 (5분) =====
   var TMR = 300, tmrId = null;
@@ -244,33 +425,6 @@
   });
   tmrReset.addEventListener('click', function(){ clearInterval(tmrId); tmrId=null; TMR=300; tmrToggle.textContent='▶ 시작'; tmrRender(); });
   tmrRender();
-
-  // ===== 제출 (백그라운드 전송 — 폼 화면 안 뜸) =====
-  submitBtn.addEventListener('click', function(){
-    var url = "https://docs.google.com/forms/d/e/" + GFORM.formId + "/formResponse";
-    var body = new URLSearchParams();
-    body.append(GFORM.judge, judgeSel.value);
-    body.append(GFORM.team, teamSel.value);
-    var grand = 0;
-    scores.forEach(function(inp){
-      var n = parseInt(inp.value,10) || 0; grand += n;
-      var e = GFORM.cats[inp.dataset.cat];
-      if(e) body.append(e, n);
-    });
-    body.append(GFORM.total, grand);
-    fetch(url, { method:"POST", mode:"no-cors", body:body });  // 조용히 시트로 전송
-
-    var tname = teamSel.value;
-    submitBtn.disabled = true;
-    submitBtn.textContent = "✅ 제출 완료!";
-    noteEl.innerHTML = '<b>'+tname+'</b> 제출 완료 (총 '+grand+'점) · <a href="rank.html" target="_blank" style="color:var(--blue);font-weight:800">🏆 순위 보기</a>';
-    setTimeout(function(){
-      teamSel.selectedIndex = 0;
-      scores.forEach(function(i){ i.value=''; });
-      submitBtn.textContent = "제출하기";
-      recalc();
-    }, 1800);
-  });
 </script>
 </body>
 </html>

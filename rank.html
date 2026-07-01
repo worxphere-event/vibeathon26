@@ -91,16 +91,16 @@
   /* ===== 구글시트 연결 (순위 탭 CSV URL 넣으면 실시간 전환) =====
      예: SHEET_CSV = "https://docs.google.com/spreadsheets/d/{ID}/gviz/tq?tqx=out:csv&sheet=순위";
      비워두면 아래 더미 데이터로 미리보기 =========================== */
-  var SHEET_CSV = "";
+  var SHEET_CSV = "https://docs.google.com/spreadsheets/d/14q_k1NRgOCFJxnJAYrddhMc3cetNlmA8Fij4lmCa8IE/gviz/tq?tqx=out:csv&gid=1042788199";
 
-  // 더미 데이터 (실제 팀명 · 점수는 가짜)
+  // 팀 목록만 유지 · 점수는 비움(전부 대기 상태). 시트 연결하면 실시간 채워짐
   var DUMMY = [
-    ["내일바로출근","우시현",89],["부락지(富樂智)","김기홍",86],["리그오브레거시","이준승",84],
-    ["AI 역모단","박채원",81],["팀장님께빨대쪽쪽","김주원",79],["결재반려단","이윤주",77],
-    ["기상천외부","정지훈",75],["리턴","조원준",74],["호재사냥꾼","허재원",72],
-    ["강자매","강보현",70],["AI 야호~","정윤정",68],["느좋코딩왕","김태성",66],
-    ["Ai님출근하셨죠","윤예원",64],["제컴에선되는데요","이승용",61],["굿바이브","심호준",58],
-    ["터틀넥","정희명",55],["팀장님께바칩니다","유승빈",52],["A~I등하고싶다","김승빈",49]
+    ["내일바로출근","우시현",null],["부락지(富樂智)","김기홍",null],["리그오브레거시","이준승",null],
+    ["AI 역모단","박채원",null],["팀장님께빨대쪽쪽","김주원",null],["결재반려단","이윤주",null],
+    ["기상천외부","정지훈",null],["리턴","조원준",null],["호재사냥꾼","허재원",null],
+    ["강자매","강보현",null],["AI 야호~","정윤정",null],["느좋코딩왕","김태성",null],
+    ["Ai님출근하셨죠","윤예원",null],["제컴에선되는데요","이승용",null],["굿바이브","심호준",null],
+    ["터틀넥","정희명",null],["팀장님께바칩니다","유승빈",null],["A~I등하고싶다","김승빈",null]
   ];
 
   function render(rows){
@@ -147,14 +147,29 @@
     });
   }
 
+  // CSV 한 줄 안전 파싱 (따옴표 안 콤마 보호)
+  function parseLine(line){
+    var r=[], c="", q=false;
+    for(var i=0;i<line.length;i++){ var ch=line[i];
+      if(ch=='"'){ if(q&&line[i+1]=='"'){ c+='"'; i++; } else q=!q; }
+      else if(ch==','&&!q){ r.push(c); c=""; }
+      else c+=ch;
+    }
+    r.push(c); return r;
+  }
+  // 응답 원본(타임스탬프,심사위원,팀명,총점,...) → 팀별 평균총점 집계
   function parseCsv(t){
-    return t.trim().split("\n").slice(1).map(function(line){
-      var c = line.split(",").map(function(x){return x.replace(/^"|"$/g,"").trim();});
-      // 순위탭 형식 가정: 팀명(팀장), 총점  → 필요시 열 인덱스 조정
-      var m = c[0].match(/^(.*?)\s*\((.*)\)\s*$/);
-      var nm = m?m[1]:c[0], ld = m?m[2]:"";
-      var sc = parseFloat(c[1]);
-      return [nm, ld, isNaN(sc)?null:Math.round(sc)];
+    var lines = t.trim().split("\n").slice(1), agg = {};
+    lines.forEach(function(line){
+      var c = parseLine(line);
+      var team = (c[2]||"").trim(), total = parseFloat(c[3]);
+      if(!team || isNaN(total)) return;
+      if(!agg[team]) agg[team] = {sum:0, cnt:0};
+      agg[team].sum += total; agg[team].cnt++;
+    });
+    return Object.keys(agg).map(function(team){
+      var m = team.match(/^(.*?)\s*\((.*)\)\s*$/);
+      return [ m?m[1]:team, m?m[2]:"", Math.round(agg[team].sum/agg[team].cnt) ];
     });
   }
 
