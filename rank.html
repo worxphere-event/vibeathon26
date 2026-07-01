@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>JOBKOREA VIBEATHON 2026 · 실시간 순위</title>
+<style>
+  :root{
+    --bg:#0d1117; --card:#161b22; --line:#232a34;
+    --text:#f0f3f6; --sub:#8b95a1;
+    --blue:#3182f6; --blue-soft:#1d2b45;
+    --gold:#ffcf33; --silver:#c8d0da; --bronze:#e0955a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.4;
+    -webkit-font-smoothing:antialiased;padding:32px 20px 60px;min-height:100vh;
+  }
+  .wrap{max-width:840px;margin:0 auto}
+  .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:10px}
+  .head .ttl{font-size:26px;font-weight:800;letter-spacing:-.5px}
+  .head .ttl .badge{display:inline-block;background:var(--blue-soft);color:#6db0ff;
+    font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;margin-right:10px;vertical-align:middle;}
+  .head .live{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:var(--sub)}
+  .head .live .dot{width:9px;height:9px;border-radius:50%;background:#26d07c;animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  .prog{color:var(--sub);font-size:14px;margin-bottom:22px}
+  .prog b{color:var(--text)}
+
+  /* 톱3 카드 */
+  .podium{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px}
+  .pod{background:var(--card);border-radius:18px;padding:20px 16px;text-align:center;
+    border:1px solid var(--line);position:relative;overflow:hidden;}
+  .pod.g1{border-color:var(--gold)}
+  .pod.g2{border-color:var(--silver)}
+  .pod.g3{border-color:var(--bronze)}
+  .pod .medal{font-size:30px;margin-bottom:6px}
+  .pod .prize{font-size:12px;font-weight:700;margin-bottom:10px;letter-spacing:.5px}
+  .pod.g1 .prize{color:var(--gold)} .pod.g2 .prize{color:var(--silver)} .pod.g3 .prize{color:var(--bronze)}
+  .pod .team{font-size:16px;font-weight:800;margin-bottom:2px;word-break:keep-all;line-height:1.25}
+  .pod .lead{font-size:12px;color:var(--sub);margin-bottom:12px}
+  .pod .sc{font-size:30px;font-weight:800}
+  .pod .sc small{font-size:14px;color:var(--sub);font-weight:700}
+
+  /* 나머지 리스트 */
+  .list{background:var(--card);border-radius:18px;border:1px solid var(--line);overflow:hidden}
+  .row{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .row:last-child{border-bottom:none}
+  .row .rk{flex:0 0 30px;font-size:16px;font-weight:800;color:var(--sub);text-align:center}
+  .row .nm{flex:1;font-size:15px;font-weight:700;word-break:keep-all}
+  .row .nm .ld{font-size:12px;color:var(--sub);font-weight:600;margin-left:6px}
+  .row .bar{flex:0 0 160px;height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+  .row .bar i{display:block;height:100%;background:var(--blue);border-radius:4px;transition:width .5s}
+  .row .sc{flex:0 0 62px;text-align:right;font-size:17px;font-weight:800}
+  .row .sc small{font-size:12px;color:var(--sub);font-weight:700}
+  .row.pending .sc{color:var(--sub)}
+
+  .foot{text-align:center;color:var(--sub);font-size:12.5px;margin-top:24px;line-height:1.7}
+  .demo{display:inline-block;background:#3a2a12;color:var(--gold);font-size:12px;font-weight:700;
+    padding:5px 12px;border-radius:8px;margin-bottom:16px;}
+
+  @media (max-width:640px){
+    .podium{grid-template-columns:1fr;gap:10px}
+    .row .bar{flex-basis:80px}
+    .head .ttl{font-size:21px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <div class="ttl"><span class="badge">VIBEATHON 2026</span>실시간 순위</div>
+      <div class="live"><span class="dot"></span>LIVE · 자동 갱신</div>
+    </div>
+    <div class="demo" id="demo">🔧 가안 미리보기 — 더미 점수입니다 (구글시트 연결 전)</div>
+    <div class="prog">심사 집계 <b id="doneN">0</b> / 18팀 · 심사위원 <b id="judgeN">2</b>명</div>
+
+    <div class="podium" id="podium"></div>
+    <div class="list" id="list"></div>
+
+    <p class="foot">
+      JOBKOREA VIBEATHON 2026 · 스탭·심사위원 전용 순위판<br>
+      1위 🥇장원 100만 · 2위 🥈방안 70만 · 3위 🥉탐화 50만
+    </p>
+  </div>
+
+<script>
+  /* ===== 구글시트 연결 (순위 탭 CSV URL 넣으면 실시간 전환) =====
+     예: SHEET_CSV = "https://docs.google.com/spreadsheets/d/{ID}/gviz/tq?tqx=out:csv&sheet=순위";
+     비워두면 아래 더미 데이터로 미리보기 =========================== */
+  var SHEET_CSV = "";
+
+  // 더미 데이터 (실제 팀명 · 점수는 가짜)
+  var DUMMY = [
+    ["내일바로출근","우시현",89],["부락지(富樂智)","김기홍",86],["리그오브레거시","이준승",84],
+    ["AI 역모단","박채원",81],["팀장님께빨대쪽쪽","김주원",79],["결재반려단","이윤주",77],
+    ["기상천외부","정지훈",75],["리턴","조원준",74],["호재사냥꾼","허재원",72],
+    ["강자매","강보현",70],["AI 야호~","정윤정",68],["느좋코딩왕","김태성",66],
+    ["Ai님출근하셨죠","윤예원",64],["제컴에선되는데요","이승용",61],["굿바이브","심호준",58],
+    ["터틀넥","정희명",55],["팀장님께바칩니다","유승빈",52],["A~I등하고싶다","김승빈",49]
+  ];
+
+  function render(rows){
+    // 점수 있는 팀만 순위, 없으면 대기
+    var scored = rows.filter(function(r){return r[2]!=null && r[2]!=="";})
+                     .sort(function(a,b){return b[2]-a[2];});
+    var pending = rows.filter(function(r){return r[2]==null || r[2]==="";});
+    document.getElementById('doneN').textContent = scored.length;
+
+    var maxSc = scored.length ? scored[0][2] : 100;
+    var prizes = ["장원 100만","방안 70만","탐화 50만"];
+    var medals = ["🥇","🥈","🥉"];
+
+    // 톱3
+    var pod = document.getElementById('podium'); pod.innerHTML="";
+    for(var i=0;i<3;i++){
+      var r = scored[i];
+      var d = document.createElement('div'); d.className="pod g"+(i+1);
+      d.innerHTML = '<div class="medal">'+medals[i]+'</div>'
+        + '<div class="prize">'+prizes[i]+'</div>'
+        + '<div class="team">'+(r?r[0]:'–')+'</div>'
+        + '<div class="lead">'+(r?r[1]:'대기 중')+'</div>'
+        + '<div class="sc">'+(r?r[2]:'–')+'<small> / 100</small></div>';
+      pod.appendChild(d);
+    }
+
+    // 4위 이하 + 대기
+    var list = document.getElementById('list'); list.innerHTML="";
+    scored.slice(3).forEach(function(r,idx){
+      var row = document.createElement('div'); row.className="row";
+      row.innerHTML = '<div class="rk">'+(idx+4)+'</div>'
+        + '<div class="nm">'+r[0]+'<span class="ld">'+r[1]+'</span></div>'
+        + '<div class="bar"><i style="width:'+(r[2]/maxSc*100)+'%"></i></div>'
+        + '<div class="sc">'+r[2]+'<small> / 100</small></div>';
+      list.appendChild(row);
+    });
+    pending.forEach(function(r){
+      var row = document.createElement('div'); row.className="row pending";
+      row.innerHTML = '<div class="rk">–</div>'
+        + '<div class="nm">'+r[0]+'<span class="ld">'+r[1]+'</span></div>'
+        + '<div class="bar"><i style="width:0%"></i></div>'
+        + '<div class="sc">대기</div>';
+      list.appendChild(row);
+    });
+  }
+
+  function parseCsv(t){
+    return t.trim().split("\n").slice(1).map(function(line){
+      var c = line.split(",").map(function(x){return x.replace(/^"|"$/g,"").trim();});
+      // 순위탭 형식 가정: 팀명(팀장), 총점  → 필요시 열 인덱스 조정
+      var m = c[0].match(/^(.*?)\s*\((.*)\)\s*$/);
+      var nm = m?m[1]:c[0], ld = m?m[2]:"";
+      var sc = parseFloat(c[1]);
+      return [nm, ld, isNaN(sc)?null:Math.round(sc)];
+    });
+  }
+
+  function load(){
+    if(!SHEET_CSV){ render(DUMMY); return; }
+    document.getElementById('demo').style.display="none";
+    fetch(SHEET_CSV).then(function(r){return r.text();})
+      .then(function(t){ render(parseCsv(t)); })
+      .catch(function(){ render(DUMMY); });
+  }
+  load();
+  setInterval(load, 20000); // 20초마다 갱신
+</script>
+</body>
+</html>
