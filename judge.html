@@ -88,10 +88,27 @@
   .note{text-align:center;color:var(--sub);font-size:12.5px;margin-top:12px;line-height:1.6}
   .foot{text-align:center;color:var(--sub);font-size:13px;margin-top:22px}
 
+  /* 발표 타이머 (상단 고정) */
+  .timer{position:sticky;top:8px;z-index:20;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;
+    justify-content:space-between;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+  .tmr-l{display:flex;align-items:center;gap:12px}
+  .tmr-display{font-size:30px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:1px}
+  .tmr-display.warn{color:#ff9f1c}
+  .tmr-display.done{color:#f04452;animation:flash .7s infinite}
+  @keyframes flash{0%,100%{opacity:1}50%{opacity:.3}}
+  .tmr-tag{font-size:12px;color:var(--sub);font-weight:700}
+  .tmr-btns{display:flex;gap:8px}
+  .tmr-btns button{border:none;font-family:inherit;font-weight:700;font-size:14px;
+    padding:9px 16px;border-radius:10px;cursor:pointer}
+  .tmr-start{background:var(--blue);color:#fff}
+  .tmr-reset{background:var(--line);color:var(--text)}
+
   @media (max-width:520px){
     body{padding:24px 12px 70px}
     .head h1{font-size:22px}
     .cat-head,.item{padding-left:14px;padding-right:14px}
+    .tmr-display{font-size:26px}
   }
 </style>
 </head>
@@ -102,6 +119,17 @@
       <h1>심사 채점표</h1>
       <p>각 항목 0~5점 중 하나를 클릭해 주세요 · 총 100점</p>
       <a href="rank.html" target="_blank" style="display:inline-block;margin-top:12px;background:#191f28;color:#fff;text-decoration:none;font-size:14px;font-weight:700;padding:10px 18px;border-radius:999px;">🏆 실시간 순위 보기</a>
+    </div>
+
+    <div class="timer">
+      <div class="tmr-l">
+        <div class="tmr-display" id="tmr">05:00</div>
+        <div class="tmr-tag">팀당 발표 5분</div>
+      </div>
+      <div class="tmr-btns">
+        <button class="tmr-start" id="tmrToggle">▶ 시작</button>
+        <button class="tmr-reset" id="tmrReset">↺ 리셋</button>
+      </div>
     </div>
 
     <div class="meta">
@@ -147,38 +175,9 @@
       </div>
     </div>
 
-    <!-- 1. 주제 적합성 30 -->
+    <!-- 1. 기획 신선함 30 -->
     <div class="cat">
-      <div class="cat-head"><div class="rank">1</div><div class="title">주제 적합성</div><div class="pt">30점</div><div class="stsum">0</div></div>
-      <div class="item">
-        <div class="top"><div class="d">팀원이 아닌 '팀장'의 시점에서 기획되었는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
-        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
-      </div>
-      <div class="item">
-        <div class="top"><div class="d">팀장이 보면 한숨이 나올 만한 서비스인가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
-        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
-      </div>
-      <div class="item">
-        <div class="top"><div class="d">추가 주제(돌발 상황)의 내용이 반영되었는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
-        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
-      </div>
-      <div class="item">
-        <div class="top"><div class="d">어떤 순간에 쓰는지 구체적으로 그려지는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
-        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
-      </div>
-      <div class="item">
-        <div class="top"><div class="d">기획 의도가 명확한가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
-        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
-      </div>
-      <div class="item">
-        <div class="top"><div class="d">팀장이 실제로 싫어할·말릴 포인트가 뾰족한가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
-        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
-      </div>
-    </div>
-
-    <!-- 2. 기획 신선함 25 -->
-    <div class="cat">
-      <div class="cat-head"><div class="rank">2</div><div class="title">기획 신선함</div><div class="pt">25점</div><div class="stsum">0</div></div>
+      <div class="cat-head"><div class="rank">1</div><div class="title">기획 신선함</div><div class="pt">30점</div><div class="stsum">0</div></div>
       <div class="item">
         <div class="top"><div class="d">기존에 없던 새로운 발상의 서비스인가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
         <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
@@ -197,6 +196,35 @@
       </div>
       <div class="item">
         <div class="top"><div class="d">다른 팀과 겹치지 않는 차별성이 있는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">유머·위트 코드가 확실한가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+    </div>
+
+    <!-- 2. 주제 적합성 25 -->
+    <div class="cat">
+      <div class="cat-head"><div class="rank">2</div><div class="title">주제 적합성</div><div class="pt">25점</div><div class="stsum">0</div></div>
+      <div class="item">
+        <div class="top"><div class="d">팀원이 아닌 '팀장'의 시점에서 기획되었는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">팀장이 보면 한숨이 나올 만한 서비스인가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">추가 주제(돌발 상황)의 내용이 반영되었는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">어떤 순간에 쓰는지 구체적으로 그려지는가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
+        <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
+      </div>
+      <div class="item">
+        <div class="top"><div class="d">팀장이 실제로 싫어할·말릴 포인트가 뾰족한가?<span class="m">5점</span></div><div class="scv">–<small> / 5</small></div></div>
         <div class="scale"><div class="track"></div><div class="fill"></div><div class="dots"></div></div>
       </div>
     </div>
@@ -264,11 +292,20 @@
   </div>
 
 <script>
-  /* ===== 구글폼 연동 설정 (entry ID 받으면 여기만 채우면 끝!) =====
-     GFORM.items = 20개 세부 항목 순서대로 entry.XXXX 배열
-       순서 = 주제적합성6 → 기획신선함5 → 완성도·작동4 → 설득·발표3 → 대중공감2
-     ============================================================= */
-  var GFORM = { formId:"", judge:"", team:"", total:"", items:[] };
+  /* ===== 구글폼 연동 (카테고리 소계 + 총점 전송) ===== */
+  var GFORM = {
+    formId: "1FAIpQLSexcPCJtGAHSI0Evv6lc9jtXh6zM1TyMcI8f41NdDkZOrxSGA",
+    judge:  "entry.1925060773",
+    team:   "entry.383478249",
+    total:  "entry.957752211",
+    cats: {
+      "기획 신선함":   "entry.1851579540",
+      "주제 적합성":   "entry.1238200036",
+      "완성도 · 작동": "entry.878275965",
+      "설득 · 발표력": "entry.2046100731",
+      "대중 공감":     "entry.1163608319"
+    }
+  };
 
   var judgeSel = document.getElementById('judge');
   var teamSel  = document.getElementById('team');
@@ -351,21 +388,54 @@
   }
   recalc();
 
+  // ===== 발표 타이머 (5분) =====
+  var TMR = 300, tmrId = null;
+  var tmrEl = document.getElementById('tmr');
+  var tmrToggle = document.getElementById('tmrToggle');
+  var tmrReset = document.getElementById('tmrReset');
+  function fmt(s){ var m=Math.floor(s/60), ss=s%60; return (m<10?'0':'')+m+':'+(ss<10?'0':'')+ss; }
+  function beep(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)();
+    var o=a.createOscillator(), g=a.createGain(); o.connect(g); g.connect(a.destination);
+    o.frequency.value=880; o.start(); g.gain.setValueAtTime(0.3,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.8); o.stop(a.currentTime+0.8); }catch(e){} }
+  function tmrRender(){
+    tmrEl.textContent = fmt(TMR);
+    tmrEl.classList.toggle('warn', TMR<=60 && TMR>0);
+    tmrEl.classList.toggle('done', TMR===0);
+  }
+  function tick(){
+    if(TMR>0){ TMR--; tmrRender();
+      if(TMR===0){ clearInterval(tmrId); tmrId=null; tmrToggle.textContent='▶ 시작'; beep(); } }
+  }
+  tmrToggle.addEventListener('click', function(){
+    if(tmrId){ clearInterval(tmrId); tmrId=null; tmrToggle.textContent='▶ 시작'; }
+    else { if(TMR===0) TMR=300; tmrId=setInterval(tick,1000); tmrToggle.textContent='⏸ 일시정지'; tmrRender(); }
+  });
+  tmrReset.addEventListener('click', function(){
+    clearInterval(tmrId); tmrId=null; TMR=300; tmrToggle.textContent='▶ 시작'; tmrRender();
+  });
+  tmrRender();
+
   submitBtn.addEventListener('click', function(){
-    if(!GFORM.formId){
-      alert("아직 구글폼이 연동되지 않았어요!\n한나 선배님이 구글폼 entry ID를 넣어주시면 바로 제출됩니다 :)");
-      return;
-    }
+    if(!GFORM.formId){ alert("구글폼이 아직 연동되지 않았어요!"); return; }
     var base = "https://docs.google.com/forms/d/e/" + GFORM.formId + "/viewform?usp=pp_url";
     var p = [];
     p.push(GFORM.judge + "=" + encodeURIComponent(judgeSel.value));
     p.push(GFORM.team  + "=" + encodeURIComponent(teamSel.value));
-    var vals = itemValues(), total = 0;
-    vals.forEach(function(v, i){
-      var vv = (v==null?0:v); total += vv;
-      if(GFORM.items[i]) p.push(GFORM.items[i] + "=" + encodeURIComponent(vv));
+    var grand = 0;
+    document.querySelectorAll('.cat').forEach(function(cat){
+      var sub = 0;
+      cat.querySelectorAll('.item').forEach(function(it){
+        var scale = it.querySelector('.scale');
+        if(scale){ sub += parseInt(scale.dataset.value||0,10); return; }
+        var active = it.querySelector('.tg.active');
+        sub += active ? parseInt(active.dataset.val,10) : 0;
+      });
+      grand += sub;
+      var title = cat.querySelector('.title').textContent.trim();
+      if(GFORM.cats[title]) p.push(GFORM.cats[title] + "=" + encodeURIComponent(sub));
     });
-    if(GFORM.total) p.push(GFORM.total + "=" + encodeURIComponent(total));
+    if(GFORM.total) p.push(GFORM.total + "=" + encodeURIComponent(grand));
     window.open(base + "&" + p.join("&"), "_blank");
   });
 </script>
